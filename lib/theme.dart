@@ -6,6 +6,7 @@ class MyTheme {
   static const Color secondaryColor = Color(0xff808080);
   static const Color shadowColor = Color.fromARGB(255, 172, 172, 172);
   static const Color textColor = Color(0xff000000);
+  static const Color iconColor = Color(0xffffffff);
   static const Color whiteColor = Color(0xffffffff);
   static const Color textColorLight = Color(0xffA0A4AB);
   static const Color buttonColor = Color(0xffD5955D);
@@ -17,7 +18,7 @@ class MyTheme {
       {final Color? color,
       final FontWeight? fontWeight,
       final double? fontSize}) {
-    return GoogleFonts.poppins(
+    return GoogleFonts.cairo(
       textStyle: TextStyle(
           color: color ?? whiteColor,
           fontWeight: fontWeight ?? FontWeight.w500,
