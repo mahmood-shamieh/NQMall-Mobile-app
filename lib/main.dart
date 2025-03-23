@@ -1,6 +1,9 @@
+import 'package:app/components/my_button.dart';
+import 'package:app/components/style_widget.dart';
 import 'package:app/localization_service.dart';
 import 'package:app/network/api_hundler.dart';
 import 'package:app/network/network_urls.dart';
+import 'package:app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
       translations: getIt.get<LocalizationService>(),
       locale: LocalizationService.getCurrentLocale(), // Set default locale
       fallbackLocale: LocalizationService.fallbackLocale, // Fallback locale
-      home: Scaffold(),
+      home: SplashScreen(),
     );
   }
 }
