@@ -3,6 +3,8 @@ import 'package:app/components/style_widget.dart';
 import 'package:app/localization_service.dart';
 import 'package:app/network/api_hundler.dart';
 import 'package:app/network/network_urls.dart';
+import 'package:app/screens/sign_Up_screen.dart';
+import 'package:app/screens/sign_in_screen.dart';
 import 'package:app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

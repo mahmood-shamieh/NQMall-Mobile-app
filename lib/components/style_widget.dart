@@ -60,7 +60,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       title: 'bottomBar.home'.tr,
       activeColorPrimary: MyTheme.mainColor,
       inactiveColorPrimary: MyTheme.textColor,
-      textStyle: MyTheme.getButtonStyle(),
+      textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
     ),
     PersistentBottomNavBarItem(
       icon: Padding(
@@ -69,7 +69,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       title: 'bottomBar.offers'.tr,
       activeColorPrimary: MyTheme.mainColor,
       inactiveColorPrimary: MyTheme.textColor,
-      textStyle: MyTheme.getButtonStyle(),
+      textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(FontAwesomeIcons.search),
@@ -77,7 +77,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       activeColorPrimary: MyTheme.mainColor,
       activeColorSecondary: MyTheme.whiteColor,
       inactiveColorPrimary: MyTheme.textColor,
-      textStyle: MyTheme.getButtonStyle(),
+      textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
     ),
     PersistentBottomNavBarItem(
       icon: Padding(
@@ -86,7 +86,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       title: 'bottomBar.profile'.tr,
       activeColorPrimary: MyTheme.mainColor,
       inactiveColorPrimary: MyTheme.textColor,
-      textStyle: MyTheme.getButtonStyle(),
+      textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
     ),
     PersistentBottomNavBarItem(
       icon: Padding(
@@ -95,7 +95,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       title: 'bottomBar.categories'.tr,
       activeColorPrimary: MyTheme.mainColor,
       inactiveColorPrimary: MyTheme.textColor,
-      textStyle: MyTheme.getButtonStyle(),
+      textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
     ),
   ];
 }

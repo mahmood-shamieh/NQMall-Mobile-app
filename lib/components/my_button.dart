@@ -10,20 +10,19 @@ class MyButton extends StatelessWidget {
   final double height; // Button height
   final double width; // Button width
   final double fontSize; // Text font size
-  TextStyle? textStyle; // Text font size
+  final FontWeight? fontWeight;
 
   // Constructor
-  MyButton({
-    required this.text,
-    required this.onPressed,
-    this.backgroundColor = MyTheme.buttonColor, // Default color
-    this.textColor = MyTheme.whiteColor, // Default text color
-    this.borderRadius = MyTheme.buttonsRadius, // Default border radius
-    this.height = 60.0, // Default height
-    this.width = double.infinity, // Full width by default
-    this.fontSize = 16.0, // Default font size
-    this.textStyle, // Default font size
-  });
+  MyButton(
+      {required this.text,
+      required this.onPressed,
+      this.backgroundColor = MyTheme.buttonColor, // Default color
+      this.textColor = MyTheme.whiteColor, // Default text color
+      this.borderRadius = MyTheme.buttonsRadius, // Default border radius
+      this.height = 60.0, // Default height
+      this.width = double.infinity, // Full width by default
+      this.fontSize = 16.0, // Default font size
+      this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +38,12 @@ class MyButton extends StatelessWidget {
         ),
         onPressed: onPressed,
         child: RichText(
-            text: TextSpan(
-                text: text, style: textStyle ?? MyTheme.getButtonStyle())),
+          text: TextSpan(
+            text: text,
+            style: MyTheme.getButtonStyle(
+                fontSize: fontSize, fontWeight: fontWeight, color: textColor),
+          ),
+        ),
       ),
     );
   }

@@ -19,7 +19,7 @@ class OnBoarding2Screen extends StatelessWidget {
         MyText(
           text: 'onBoardingScreen2.title'.tr,
           fontWeight: FontWeight.bold,
-          size: 20,
+          size: MyTheme.textSizeLarge,
           color: MyTheme.textColor,
           margin: const EdgeInsets.only(
             bottom: 6,
@@ -28,7 +28,7 @@ class OnBoarding2Screen extends StatelessWidget {
         MyText(
           text: 'onBoardingScreen2.subTitle'.tr,
           fontWeight: FontWeight.w500,
-          size: 16,
+          size: MyTheme.textSizeSmall,
           color: MyTheme.textColorLight,
           margin: const EdgeInsets.only(
             bottom: 16,
