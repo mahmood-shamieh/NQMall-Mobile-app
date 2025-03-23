@@ -15,11 +15,19 @@ class LocalizationService extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          'hello': 'Hello',
+          'bottomBar.home': 'Home',
+          'bottomBar.offers': 'Offers',
+          'bottomBar.profile': 'Profile',
+          'bottomBar.categories': 'Catalog',
+          'bottomBar.search': 'Search',
           'change_language': 'Change Language',
         },
         'ar_EG': {
-          'hello': 'مرحبا',
+          'bottomBar.home': 'الرئيسية',
+          'bottomBar.offers': 'العروض',
+          'bottomBar.profile': 'الحساب',
+          'bottomBar.categories': 'الأصناف',
+          'bottomBar.search': 'البحث',
           'change_language': 'تغيير اللغة',
         },
       };

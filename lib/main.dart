@@ -1,3 +1,5 @@
+import 'package:app/components/my_button.dart';
+import 'package:app/components/style_widget.dart';
 import 'package:app/localization_service.dart';
 import 'package:app/network/api_hundler.dart';
 import 'package:app/network/network_urls.dart';
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
       translations: getIt.get<LocalizationService>(),
       locale: LocalizationService.getCurrentLocale(), // Set default locale
       fallbackLocale: LocalizationService.fallbackLocale, // Fallback locale
-      home: Scaffold(),
+      home: StyleWidget(),
     );
   }
 }
