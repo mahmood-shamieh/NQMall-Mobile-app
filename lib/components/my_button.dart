@@ -11,6 +11,7 @@ class MyButton extends StatelessWidget {
   final double width; // Button width
   final double fontSize; // Text font size
   final FontWeight? fontWeight;
+  final EdgeInsets? padding, margin;
 
   // Constructor
   MyButton(
@@ -22,26 +23,34 @@ class MyButton extends StatelessWidget {
       this.height = 60.0, // Default height
       this.width = double.infinity, // Full width by default
       this.fontSize = 16.0, // Default font size
-      this.fontWeight});
+      this.fontWeight,
+      this.padding,
+      this.margin});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
       height: height,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
+      padding: padding,
+      margin: margin,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          borderRadius,
         ),
-        onPressed: onPressed,
-        child: RichText(
-          text: TextSpan(
-            text: text,
-            style: MyTheme.getButtonStyle(
-                fontSize: fontSize, fontWeight: fontWeight, color: textColor),
+        color: backgroundColor,
+      ),
+      child: InkWell(
+        onTap: onPressed,
+        child: Center(
+          child: RichText(
+            text: TextSpan(
+              text: text,
+              style: MyTheme.getButtonStyle(
+                  fontSize: fontSize,
+                  fontWeight: fontWeight ?? FontWeight.bold,
+                  color: textColor),
+            ),
           ),
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:app/localization_service.dart';
 import 'package:app/main.dart';
+import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/profile_screen.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -43,10 +45,10 @@ class StyleWidget extends StatelessWidget {
 
 List<Widget> _buildScreens() {
   return [
-    Screen1(),
+    HomeScreen(),
     Screen2(),
     Screen3(),
-    Screen3(),
+    ProfileScreen(),
     Screen3(),
   ];
 }

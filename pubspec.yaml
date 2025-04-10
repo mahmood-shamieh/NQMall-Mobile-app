@@ -33,6 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.10+1
+  carousel_slider: ^4.2.1
   font_awesome_flutter: ^10.8.0
   get: ^4.7.2
   get_it: ^8.0.3

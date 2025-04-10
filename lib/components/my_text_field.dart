@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
   final String hintText;
+  final Color? color;
+  final String? errorText;
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool obscureText;
@@ -15,6 +17,8 @@ class MyTextField extends StatelessWidget {
 
   const MyTextField({
     super.key,
+    this.errorText,
+    this.color,
     required this.hintText,
     this.controller,
     this.keyboardType = TextInputType.text,
@@ -30,7 +34,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 85,
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
@@ -41,7 +45,12 @@ class MyTextField extends StatelessWidget {
             MyTheme.getButtonStyle(
                 color: MyTheme.textColor, fontSize: MyTheme.textFieldTextSize),
         decoration: InputDecoration(
+          fillColor: color,
+          filled: color == null ? false : true,
           hintText: hintText,
+          errorText: errorText,
+          errorStyle: MyTheme.getButtonStyle(
+              color: Colors.red[400], fontSize: MyTheme.textSizeXXSmall),
           prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
           suffixIcon: suffixIcon != null
               ? GestureDetector(

@@ -1,9 +1,12 @@
 import 'package:app/components/my_text.dart';
+import 'package:app/main.dart';
 import 'package:app/theme.dart';
+import 'package:app/utils/local_storage_keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OnBoarding3Screen extends StatelessWidget {
   final VoidCallback moveToNextAction;
