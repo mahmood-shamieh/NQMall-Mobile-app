@@ -4,7 +4,7 @@ import 'package:app/exceptions/no_internet_excpetion.dart';
 import 'package:app/exceptions/unauthorized_exception.dart';
 import 'package:app/exceptions/view_exception.dart';
 import 'package:http/http.dart' as http;
-import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiHandler {
   final String baseUrl;
@@ -20,10 +20,10 @@ class ApiHandler {
   //   defaultHeaders!['Authorization'] = 'Bearer $token';
   // }
 
-  Future<bool> _checkConnectivity() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
-  }
+  // Future<bool> _checkConnectivity() async {
+  //   var connectivityResult = await Connectivity().checkConnectivity();
+  //   return connectivityResult != ConnectivityResult.none;
+  // }
 
   Future<Map> _request(String endpoint, String method,
       {Map<String, dynamic>? body, Map<String, String>? headers}) async {
