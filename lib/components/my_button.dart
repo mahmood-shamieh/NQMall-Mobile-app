@@ -10,37 +10,49 @@ class MyButton extends StatelessWidget {
   final double height; // Button height
   final double width; // Button width
   final double fontSize; // Text font size
-  TextStyle? textStyle; // Text font size
+  final FontWeight? fontWeight;
+  final EdgeInsets? padding, margin;
 
   // Constructor
-  MyButton({
-    required this.text,
-    required this.onPressed,
-    this.backgroundColor = MyTheme.buttonColor, // Default color
-    this.textColor = MyTheme.whiteColor, // Default text color
-    this.borderRadius = MyTheme.buttonsRadius, // Default border radius
-    this.height = 60.0, // Default height
-    this.width = double.infinity, // Full width by default
-    this.fontSize = 16.0, // Default font size
-    this.textStyle, // Default font size
-  });
+  MyButton(
+      {required this.text,
+      required this.onPressed,
+      this.backgroundColor = MyTheme.buttonColor, // Default color
+      this.textColor = MyTheme.whiteColor, // Default text color
+      this.borderRadius = MyTheme.buttonsRadius, // Default border radius
+      this.height = 60.0, // Default height
+      this.width = double.infinity, // Full width by default
+      this.fontSize = 16.0, // Default font size
+      this.fontWeight,
+      this.padding,
+      this.margin});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
       height: height,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+      padding: padding,
+      margin: margin,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          borderRadius,
+        ),
+        color: backgroundColor,
+      ),
+      child: InkWell(
+        onTap: onPressed,
+        child: Center(
+          child: RichText(
+            text: TextSpan(
+              text: text,
+              style: MyTheme.getButtonStyle(
+                  fontSize: fontSize,
+                  fontWeight: fontWeight ?? FontWeight.bold,
+                  color: textColor),
+            ),
           ),
         ),
-        onPressed: onPressed,
-        child: RichText(
-            text: TextSpan(
-                text: text, style: textStyle ?? MyTheme.getButtonStyle())),
       ),
     );
   }

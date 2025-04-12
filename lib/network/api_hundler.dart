@@ -1,37 +1,41 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:app/exceptions/no_internet_excpetion.dart';
+import 'package:app/exceptions/unauthorized_exception.dart';
 import 'package:app/exceptions/view_exception.dart';
 import 'package:http/http.dart' as http;
-import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiHandler {
   final String baseUrl;
-  Map<String, String> defaultHeaders;
+  Map<String, String>? defaultHeaders = {'Content-Type': 'application/json'};
   final Duration timeout;
 
   ApiHandler({
     required this.baseUrl,
-    this.defaultHeaders = const {'Content-Type': 'application/json'},
+    this.defaultHeaders,
     this.timeout = const Duration(seconds: 10),
   });
-  void addAuthHeader(String token) {
-    defaultHeaders['Authorization'] = 'Bearer $token';
-  }
+  // void addAuthHeader(String token) {
+  //   defaultHeaders!['Authorization'] = 'Bearer $token';
+  // }
 
-  Future<bool> _checkConnectivity() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
-  }
+  // Future<bool> _checkConnectivity() async {
+  //   var connectivityResult = await Connectivity().checkConnectivity();
+  //   return connectivityResult != ConnectivityResult.none;
+  // }
 
-  Future<dynamic> _request(String endpoint, String method,
+  Future<Map> _request(String endpoint, String method,
       {Map<String, dynamic>? body, Map<String, String>? headers}) async {
     // if (!await _checkConnectivity()) {
     //   throw NoInternetException();
     // }
 
     final url = Uri.parse('$baseUrl$endpoint');
-    final requestHeaders = {...defaultHeaders, if (headers != null) ...headers};
+    final requestHeaders = {
+      ...defaultHeaders!,
+      if (headers != null) ...headers
+    };
 
     try {
       late http.Response response;
@@ -59,13 +63,15 @@ class ApiHandler {
           throw Exception("Invalid HTTP method");
       }
 
-      return _handleResponse(response);
+      return _handleResponse(response)
+          // .map((key, value) => MapEntry(key, value.toString()))
+          ;
     } on SocketException {
       throw NoInternetException();
     } on HttpException {
       throw NoInternetException();
     } catch (e) {
-      throw Exception("Unexpected Error: $e");
+      rethrow;
     }
   }
 
@@ -79,7 +85,10 @@ class ApiHandler {
       case 401:
         throw Exception("Unauthorized: ${response.body}");
       case 403:
-        throw Exception("Forbidden: ${response.body}");
+        throw UnAuthorizedException(
+            statusCode: response.statusCode,
+            message: json.decode(response.body)['message'],
+            data: null);
       case 404:
         throw Exception("Not Found: ${response.body}");
       case 500:
@@ -89,7 +98,7 @@ class ApiHandler {
             throw ViewException(
                 statusCode: decodedResponse['code'],
                 message: decodedResponse['message'],
-                data: decodedResponse['data']);
+                data: null);
           } else {
             throw Exception("Server Error: ${response.body}");
           }
