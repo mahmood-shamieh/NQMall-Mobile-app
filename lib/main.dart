@@ -14,12 +14,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 GetIt getIt = GetIt.I;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
   await GetStorage.init();
   getIt.registerSingleton<GetStorage>(GetStorage());
+  getIt.registerSingleton<PersistentTabController>(PersistentTabController(
+    initialIndex: 0,
+  ));
   // print(GetStorage().read(LocalStorageKeys.userModelKey.getKey()));
   // GetStorage().write(
   //     LocalStorageKeys.userModelKey.getKey(),

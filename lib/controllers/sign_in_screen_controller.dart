@@ -83,7 +83,7 @@ class SignInScreenController extends BaseController {
     try {
       loading(true);
       BaseResponse<UserModel> baseResponse = await Future.delayed(
-          Duration(seconds: 3),
+          Duration(seconds: 0),
           () async => await SigninApi.callApi(
               username: username.text, passowrd: password.text));
       UserModel userModel = baseResponse.data!;

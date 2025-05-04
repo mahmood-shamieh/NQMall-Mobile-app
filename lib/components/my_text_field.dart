@@ -34,7 +34,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 85,
+      // height: 85,
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
@@ -60,11 +60,11 @@ class MyTextField extends StatelessWidget {
               : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: MyTheme.shadowColor),
+            borderSide: const BorderSide(color: MyTheme.borderColor, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: MyTheme.shadowColor),
+            borderSide: const BorderSide(color: MyTheme.borderColor, width: 2),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

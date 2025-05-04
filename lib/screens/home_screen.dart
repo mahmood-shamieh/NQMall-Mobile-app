@@ -1,8 +1,16 @@
 import 'package:app/components/carousel_widget.dart';
+import 'package:app/components/category_widget.dart';
+import 'package:app/components/loading_widget.dart';
 import 'package:app/components/my_button.dart';
 import 'package:app/components/my_text.dart';
 import 'package:app/components/my_text_field.dart';
-import 'package:app/controllers/home_page_controller.dart';
+import 'package:app/components/product_widget.dart';
+import 'package:app/controllers/home_screen_controller.dart';
+import 'package:app/controllers/search_screen_controller.dart';
+import 'package:app/enums/loading_type.dart';
+import 'package:app/main.dart';
+import 'package:app/screens/product_details_screen.dart';
+import 'package:app/screens/search_screen.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -10,14 +18,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomePageController>(
-      init: Get.put(HomePageController()),
+    return GetBuilder<HomeScreenController>(
+      init: Get.put(HomeScreenController()),
       builder: (controller) => Scaffold(
         body: Stack(
           children: [
@@ -77,7 +86,8 @@ class HomeScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(8.0),
                           margin: const EdgeInsetsDirectional.only(
-                              end: 8, bottom: 26),
+                            end: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: MyTheme.offWhiteColor,
                             borderRadius: BorderRadius.circular(
@@ -92,11 +102,29 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Flexible(
                           flex: 1,
-                          child: MyTextField(
-                            color: MyTheme.offWhiteColor,
-                            hintText: 'homeScreen.searchFiled'.tr,
+                          child: InkWell(
+                            onTap: () => Get.to(
+                              () => SearchScreen(),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    MyTheme.buttonsRadius),
+                                color: MyTheme.offWhiteColor,
+                              ),
+                              child: MyText(
+                                text: 'homeScreen.searchFiled'.tr,
+                                color: MyTheme.secondaryColor,
+                              ),
+                            ),
                           ),
                         ),
+                        // MyTextField(
+                        //     color: MyTheme.offWhiteColor,
+                        //     hintText: 'homeScreen.searchFiled'.tr,
+                        //   )
                       ],
                     ),
                   ),
@@ -158,31 +186,90 @@ class HomeScreen extends StatelessWidget {
                     size: MyTheme.textSizeXLarge,
                     fontWeight: FontWeight.bold,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GridView.builder(
-                      itemCount: 20,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                        childAspectRatio: 1,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: MyTheme.shadowColor,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                  controller.loadingCategories.value
+                      ? const SizedBox(
+                          height: 200,
                           child: Center(
-                            child: MyText(text: index.toString()),
+                            child: LoadingWidget(
+                              loadingType: LoadingType.circle,
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                  )
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GridView.builder(
+                            itemCount: controller.categories.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 0.75,
+                            ),
+                            itemBuilder: (context, index) {
+                              return CategoryWidget(
+                                action: () {
+                                  SearchScreenController screenController;
+                                  try {
+                                    screenController =
+                                        Get.find<SearchScreenController>();
+                                  } catch (e) {
+                                    Get.put(SearchScreenController(
+                                        selectedCategoryModel:
+                                            controller.categories[index]));
+                                  }
+                                  getIt
+                                      .get<PersistentTabController>()
+                                      .jumpToTab(2);
+                                },
+                                categoryModel: controller.categories[index],
+                              );
+                            },
+                          ),
+                        ),
+                  MyText(
+                    padding: EdgeInsets.all(8),
+                    text: 'homeScreen.title2'.tr,
+                    color: MyTheme.textColor,
+                    size: MyTheme.textSizeXLarge,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  controller.loadingProducts.value
+                      ? const SizedBox(
+                          height: 200,
+                          child: Center(
+                            child: LoadingWidget(
+                              loadingType: LoadingType.circle,
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GridView.builder(
+                            itemCount: controller.products.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 0.75,
+                            ),
+                            itemBuilder: (context, index) {
+                              return ProductWidget(
+                                action: () => Get.to(
+                                  () => ProductDetailsScreen(
+                                    productModel: controller.products[index],
+                                  ),
+                                ),
+                                productModel: controller.products[index],
+                              );
+                            },
+                          ),
+                        )
                 ],
               ),
             )

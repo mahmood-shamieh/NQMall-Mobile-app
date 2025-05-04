@@ -11,4 +11,10 @@ class NetworkURLs {
         ? "$_secureUrlPrefix$_serverUrl:$_port${_systemPrefix != '' ? "/$_systemPrefix" : ''}"
         : "$_unSecureUrlPrefix$_serverUrl:$_port${_systemPrefix != '' ? "/$_systemPrefix" : ''}";
   }
+
+  static String getMediaServer({bool? secure}) {
+    return secure ?? false
+        ? "$_secureUrlPrefix$_serverUrl:$_port/${_systemPrefix != '' ? _systemPrefix : ''}/"
+        : "$_unSecureUrlPrefix$_serverUrl:$_port/${_systemPrefix != '' ? _systemPrefix : ''}/";
+  }
 }

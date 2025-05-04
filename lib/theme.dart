@@ -5,7 +5,9 @@ class MyTheme {
   static const Color mainColor = Color(0xffD5955D);
   static const Color secondaryColor = Color(0xff808080);
   static const Color thirdColor = Color(0xff472D2D);
+  static const Color cardColor = Color(0xffe6f2ff);
   static const Color shadowColor = Color.fromARGB(255, 172, 172, 172);
+  static const Color borderColor = Color(0xffE8F1FF);
   static const Color textColor = Color(0xff000000);
   static const Color iconColor = Color(0xffffffff);
   static const Color whiteColor = Color(0xffffffff);

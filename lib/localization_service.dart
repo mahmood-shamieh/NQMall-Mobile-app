@@ -54,6 +54,12 @@ class LocalizationService extends Translations {
           'homeScreen.searchFiled': 'What You Need',
           'homeScreen.offerAction': 'Read More',
           'homeScreen.title1': 'Shop By Category',
+          'homeScreen.title2': 'popular',
+          'searchPage.trendingAreTitle': 'Trending',
+          'searchPage.popularSearchAreTitle': 'Popular Search',
+          'searchPage.searchFiled': 'SEARCH YOU ...',
+          'searchPage.title': 'SEARCH PRODUCT',
+          'ProductDetailsScreen.title': 'PRODUCT DETAILS',
         },
         'ar_EG': {
           'loading': 'يرجى الانتظار',
@@ -95,6 +101,12 @@ class LocalizationService extends Translations {
           'homeScreen.searchFiled': 'ماذا تريد',
           'homeScreen.offerAction': 'قراءة المزيد',
           'homeScreen.title1': 'تسوق حسب الأصناف',
+          'homeScreen.title2': 'الأكثر مبييعاً',
+          'searchPage.trendingAreTitle': 'رائج',
+          'searchPage.popularSearchAreTitle': 'شائعات البحث',
+          'searchPage.searchFiled': 'ابحث عن ...',
+          'searchPage.title': 'البحث',
+          'ProductDetailsScreen.title': 'تفاصيل المنتج',
         },
       };
 

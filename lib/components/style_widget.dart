@@ -1,7 +1,10 @@
+import 'package:app/controllers/home_screen_controller.dart';
+import 'package:app/controllers/search_screen_controller.dart';
 import 'package:app/localization_service.dart';
 import 'package:app/main.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/profile_screen.dart';
+import 'package:app/screens/search_screen.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,32 +13,54 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class StyleWidget extends StatelessWidget {
-  final PersistentTabController _controller =
-      PersistentTabController(initialIndex: 0);
+  final PersistentTabController controller =
+      getIt.get<PersistentTabController>();
   StyleWidget({
     super.key,
   });
+
+  void restTheScreenState(int index) {
+    HomeScreenController homeScreenController;
+    SearchScreenController searchScreenController;
+    try {
+      switch (index) {
+        case 0:
+          homeScreenController = Get.find<HomeScreenController>();
+          homeScreenController.onInit();
+          break;
+        case 2:
+          searchScreenController = Get.find<SearchScreenController>();
+          searchScreenController.onInit();
+          break;
+        default:
+      }
+    } catch (_) {}
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: PersistentTabView(
         context,
-        controller: _controller,
+        controller: controller,
         screens: _buildScreens(),
         items: _navBarsItems(),
+        onItemSelected: (value) {
+          restTheScreenState(value);
+        },
+        // popAllScreensOnTapOfSelectedTab: true,
         // confineInSafeArea: true,
         backgroundColor: MyTheme.offWhiteColor, // Optional background color
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,
-        decoration: NavBarDecoration(boxShadow: [
+        decoration: const NavBarDecoration(boxShadow: [
           BoxShadow(
             color: MyTheme.shadowColor,
             blurRadius: 10,
             spreadRadius: 2,
           )
         ]),
-        stateManagement: true,
+        stateManagement: false,
         navBarStyle: NavBarStyle.style15, // Choose the style you like
       ),
       // body: ,
@@ -47,7 +72,9 @@ List<Widget> _buildScreens() {
   return [
     HomeScreen(),
     Screen2(),
-    Screen3(),
+    SearchScreen(
+      key: UniqueKey(),
+    ),
     ProfileScreen(),
     Screen3(),
   ];
@@ -77,7 +104,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       icon: const Icon(FontAwesomeIcons.search),
       title: 'bottomBar.search'.tr,
       activeColorPrimary: MyTheme.mainColor,
-      activeColorSecondary: MyTheme.whiteColor,
+      activeColorSecondary: MyTheme.secondaryColor,
       inactiveColorPrimary: MyTheme.textColor,
       textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
     ),

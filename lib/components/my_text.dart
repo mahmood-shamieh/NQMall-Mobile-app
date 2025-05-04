@@ -8,15 +8,16 @@ class MyText extends StatelessWidget {
   final FontWeight? fontWeight;
   final double? size;
   final EdgeInsetsGeometry? padding, margin;
-  const MyText({
-    super.key,
-    this.color,
-    this.fontWeight,
-    this.size,
-    required this.text,
-    this.margin,
-    this.padding,
-  });
+  final TextAlign? textAlign;
+  const MyText(
+      {super.key,
+      this.color,
+      this.fontWeight,
+      this.size,
+      required this.text,
+      this.margin,
+      this.padding,
+      this.textAlign});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class MyText extends StatelessWidget {
       padding: padding,
       margin: margin,
       child: RichText(
+        textAlign: textAlign ?? TextAlign.start,
         text: TextSpan(
           text: text,
           style: MyTheme.getButtonStyle(

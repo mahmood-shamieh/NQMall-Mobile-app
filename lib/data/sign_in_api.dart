@@ -25,6 +25,7 @@ class SigninApi {
           response, (p0) => UserModel.fromMap(p0));
       return baseResponse;
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
