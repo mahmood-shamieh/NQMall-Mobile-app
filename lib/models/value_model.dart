@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:app/models/attribute_model.dart';
+
 class ValueModel {
   int? Id;
   String? ValueAr;
@@ -11,6 +13,7 @@ class ValueModel {
   DateTime? CreatedAt;
   DateTime? UpdatedAt;
   int? attributeId;
+  AttributeModel? attribute;
   ValueModel({
     this.Id,
     this.ValueAr,
@@ -21,6 +24,7 @@ class ValueModel {
     this.CreatedAt,
     this.UpdatedAt,
     this.attributeId,
+    this.attribute,
   });
 
   ValueModel copyWith({
@@ -33,6 +37,7 @@ class ValueModel {
     DateTime? CreatedAt,
     DateTime? UpdatedAt,
     int? attributeId,
+    AttributeModel? attribute,
   }) {
     return ValueModel(
       Id: Id ?? this.Id,
@@ -44,6 +49,7 @@ class ValueModel {
       CreatedAt: CreatedAt ?? this.CreatedAt,
       UpdatedAt: UpdatedAt ?? this.UpdatedAt,
       attributeId: attributeId ?? this.attributeId,
+      attribute: attribute ?? this.attribute,
     );
   }
 
@@ -58,6 +64,7 @@ class ValueModel {
       'CreatedAt': CreatedAt?.toString(),
       'UpdatedAt': UpdatedAt?.toString(),
       'attributeId': attributeId,
+      'attributeModel': attribute?.toMap(),
     };
   }
 
@@ -77,6 +84,9 @@ class ValueModel {
           map['UpdatedAt'] != null ? DateTime.parse(map['UpdatedAt']) : null,
       attributeId:
           map['attributeId'] != null ? map['attributeId'] as int : null,
+      attribute: map['attribute'] != null
+          ? AttributeModel.fromMap(map['attribute'])
+          : null,
     );
   }
 
@@ -87,7 +97,7 @@ class ValueModel {
 
   @override
   String toString() {
-    return 'ValueModel(Id: $Id, ValueAr: $ValueAr, ValueEn: $ValueEn, HoverImageAr: $HoverImageAr, HoverImageEn: $HoverImageEn, IsActive: $IsActive, CreatedAt: $CreatedAt, UpdatedAt: $UpdatedAt, attributeId: $attributeId)';
+    return 'ValueModel(Id: $Id, ValueAr: $ValueAr, ValueEn: $ValueEn, HoverImageAr: $HoverImageAr, HoverImageEn: $HoverImageEn, IsActive: $IsActive, CreatedAt: $CreatedAt, UpdatedAt: $UpdatedAt, attributeId: $attributeId, attributeModel: $attribute)';
   }
 
   @override

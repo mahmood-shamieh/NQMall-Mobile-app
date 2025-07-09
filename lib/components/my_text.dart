@@ -9,15 +9,18 @@ class MyText extends StatelessWidget {
   final double? size;
   final EdgeInsetsGeometry? padding, margin;
   final TextAlign? textAlign;
-  const MyText(
-      {super.key,
-      this.color,
-      this.fontWeight,
-      this.size,
-      required this.text,
-      this.margin,
-      this.padding,
-      this.textAlign});
+  final TextDecoration? textDecoration;
+  const MyText({
+    super.key,
+    this.color,
+    this.fontWeight,
+    this.size,
+    required this.text,
+    this.margin,
+    this.padding,
+    this.textAlign,
+    this.textDecoration,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,10 @@ class MyText extends StatelessWidget {
         text: TextSpan(
           text: text,
           style: MyTheme.getButtonStyle(
-              color: color, fontSize: size, fontWeight: fontWeight),
+              color: color,
+              fontSize: size,
+              fontWeight: fontWeight,
+              textDecoration: textDecoration),
         ),
       ),
     );

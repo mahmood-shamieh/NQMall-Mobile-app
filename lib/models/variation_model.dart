@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:app/models/order_model.dart';
+import 'package:app/models/product_model.dart';
+import 'package:app/models/product_variation_value_model.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:app/models/value_model.dart';
@@ -9,10 +12,13 @@ class VariationModel {
   int? Id;
   String? Price;
   String? Stock;
+  int orderQTY = 1;
   List<ValueModel>? Values;
   DateTime? CreatedAt;
   DateTime? UpdatedAt;
   int? productId;
+  List<ProductVariationValueModel>? product_variation_values;
+  ProductModel? product;
   VariationModel({
     this.Id,
     this.Price,
@@ -21,17 +27,20 @@ class VariationModel {
     this.CreatedAt,
     this.UpdatedAt,
     this.productId,
+    this.product,
+    this.product_variation_values,
   });
 
-  VariationModel copyWith({
-    int? Id,
-    String? Price,
-    String? Stock,
-    List<ValueModel>? Values,
-    DateTime? CreatedAt,
-    DateTime? UpdatedAt,
-    int? productId,
-  }) {
+  VariationModel copyWith(
+      {int? Id,
+      String? Price,
+      String? Stock,
+      List<ValueModel>? Values,
+      DateTime? CreatedAt,
+      DateTime? UpdatedAt,
+      int? productId,
+      List<ProductVariationValueModel>? product_variation_values,
+      ProductModel? product}) {
     return VariationModel(
       Id: Id ?? this.Id,
       Price: Price ?? this.Price,
@@ -40,6 +49,9 @@ class VariationModel {
       CreatedAt: CreatedAt ?? this.CreatedAt,
       UpdatedAt: UpdatedAt ?? this.UpdatedAt,
       productId: productId ?? this.productId,
+      product_variation_values:
+          product_variation_values ?? this.product_variation_values,
+      product: product ?? this.product,
     );
   }
 
@@ -49,9 +61,12 @@ class VariationModel {
       'Price': Price,
       'Stock': Stock,
       'Values': Values?.map((x) => x.toMap()).toList(),
+      'product_variation_values':
+          product_variation_values?.map((x) => x.toMap()).toList(),
       'CreatedAt': CreatedAt?.toString(),
       'UpdatedAt': UpdatedAt?.toString(),
       'productId': productId,
+      'product': product?.toMap(),
     };
   }
 
@@ -72,6 +87,17 @@ class VariationModel {
               ),
             )
           : null,
+      product_variation_values: map['product_variation_values'] != null
+          ? List<ProductVariationValueModel>.from(
+              (map['product_variation_values'] as List)
+                  .map<ProductVariationValueModel?>(
+                (x) => ProductVariationValueModel.fromMap(
+                    x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      product:
+          map['product'] != null ? ProductModel.fromMap(map['product']) : null,
     );
   }
 

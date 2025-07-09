@@ -14,7 +14,7 @@ class GetAllCategoriesApi {
       baseUrl: NetworkURLs.getApiServer(),
       defaultHeaders: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${getIt.get<UserModel>().Token}',
+        // 'Authorization': 'Bearer ${getIt.get<UserModel>().Token}',
         'lang': LocalizationService.getCurrentLocale().languageCode
       },
     );

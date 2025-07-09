@@ -5,10 +5,14 @@ import 'package:app/models/base_response.dart';
 import 'package:app/models/user_model.dart';
 import 'package:app/network/api_hundler.dart';
 import 'package:app/network/network_urls.dart';
+import 'package:app/services/notification_service.dart';
+import 'package:get/get.dart';
 
 class SigninApi {
   static Future<BaseResponse<UserModel>> callApi(
-      {required String username, required String passowrd}) async {
+      {required String username,
+      required String passowrd,
+      String? fcmToken}) async {
     ApiHandler apiHandler = ApiHandler(
       baseUrl: NetworkURLs.getApiServer(),
       defaultHeaders: {
@@ -16,11 +20,17 @@ class SigninApi {
         'lang': LocalizationService.getCurrentLocale().languageCode
       },
     );
-    Map<String, String> request = {"username": username, "password": passowrd};
+    NotificationService notificationService = Get.find<NotificationService>();
+    Map<String, dynamic> request = {
+      "username": username,
+      "password": passowrd,
+      'fcmToken': fcmToken ?? notificationService.fcmToken
+    };
 
     try {
       Map<String, dynamic> response =
           await apiHandler.post("/users/login", body: request);
+      // print(response);
       BaseResponse<UserModel> baseResponse = BaseResponse<UserModel>.fromMap(
           response, (p0) => UserModel.fromMap(p0));
       return baseResponse;

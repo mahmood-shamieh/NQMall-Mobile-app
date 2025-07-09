@@ -211,15 +211,18 @@ class HomeScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return CategoryWidget(
                                 action: () {
-                                  SearchScreenController screenController;
+                                  late SearchScreenController screenController;
                                   try {
                                     screenController =
                                         Get.find<SearchScreenController>();
                                   } catch (e) {
-                                    Get.put(SearchScreenController(
-                                        selectedCategoryModel:
-                                            controller.categories[index]));
+                                    screenController =
+                                        Get.put<SearchScreenController>(
+                                            SearchScreenController());
                                   }
+                                  screenController.addToSelectedCategories(
+                                      categoryModel:
+                                          controller.categories[index]);
                                   getIt
                                       .get<PersistentTabController>()
                                       .jumpToTab(2);

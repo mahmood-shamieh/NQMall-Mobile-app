@@ -1,20 +1,32 @@
+import 'dart:io';
+
 import 'package:app/components/dialog_box.dart';
 import 'package:app/components/style_widget.dart';
 import 'package:app/controllers/base_controller.dart';
+import 'package:app/data/get_all_brand_api.dart';
+import 'package:app/data/get_all_category_api.dart';
 import 'package:app/data/sign_in_api.dart';
 import 'package:app/exceptions/unauthorized_exception.dart';
+import 'package:app/exceptions/view_exception.dart';
 import 'package:app/localization_service.dart';
 import 'package:app/main.dart';
 import 'package:app/models/base_response.dart';
+import 'package:app/models/brand_model.dart';
+import 'package:app/models/cart_model.dart';
+import 'package:app/models/category_model.dart';
 import 'package:app/models/user_model.dart';
+import 'package:app/screens/sign_in_screen.dart';
 import 'package:app/theme.dart';
 import 'package:app/utils/languages_enum.dart';
 import 'package:app/utils/local_storage_keys.dart';
+import 'package:app/utils/validate_app_availability.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get_storage/get_storage.dart';
+
+import '../models/base_response.dart' as myBaseResponse;
 
 class SignInScreenController extends BaseController {
   RxBool loading = false.obs;
@@ -87,14 +99,35 @@ class SignInScreenController extends BaseController {
           () async => await SigninApi.callApi(
               username: username.text, passowrd: password.text));
       UserModel userModel = baseResponse.data!;
-      userModel.Password = password.text.trim();
+      userModel.password = password.text.trim();
       GetStorage getStorage = getIt.get<GetStorage>();
+      Map isAppAvailable = await ValidateAppAvailability.isAppAvailable(
+          appConfigModel: userModel.appConfig!);
+      if (!isAppAvailable['WorkingOrNot']) {
+        Get.dialog(DialogBox(
+          title: "تحديث التطبيق",
+          message:
+              "يرجى تحديث التطبيق إلى أحدث إصدار للاستمرار في استخدام الخدمة",
+          cancelText: "إغلاق",
+          onCancel: () => exit(0),
+        ));
+        return;
+      } else if (!isAppAvailable['AppEnabled']) {
+        Get.dialog(const DialogBox(
+          title: "التطبيق غير مفعل",
+          message: "يرجى التواصل مع الدعم للاستمرار في استخدام الخدمة",
+          cancelText: "إغلاق",
+        ));
+        return;
+      }
       getStorage.write(
           LocalStorageKeys.userModelKey.getKey(), userModel.toJson());
       if (getIt.isRegistered<UserModel>()) {
         getIt.unregister<UserModel>();
       }
       getIt.registerSingleton<UserModel>(userModel);
+      await getCategories();
+      await getBrands();
       Get.offAll(() => StyleWidget());
     } on UnAuthorizedException catch (e) {
       Get.dialog(
@@ -105,6 +138,49 @@ class SignInScreenController extends BaseController {
         ),
       );
     } catch (e) {
+      print(e);
+    } finally {
+      loading(false);
+      update();
+    }
+  }
+
+  Future getCategories() async {
+    try {
+      loading(true);
+      update();
+      BaseResponse<List<CategoryModel>> baseResponse =
+          await GetAllCategoriesApi.callApi();
+      getIt.registerSingleton<List<CategoryModel>>(baseResponse.data!);
+    } on UnAuthorizedException catch (e) {
+      Future.delayed(
+          Durations.extralong1, () => Get.offAll(() => SigninScreen()));
+    } catch (e) {
+      if (e is ViewException) return;
+      print(e);
+      throw e;
+    } finally {
+      loading(false);
+      update();
+    }
+  }
+
+  Future getBrands() async {
+    try {
+      loading(true);
+      update();
+      myBaseResponse.BaseResponse<List<BrandModel>> baseResponse =
+          await GetAllBrandApi.callApi();
+      getIt.registerSingleton<List<BrandModel>>(baseResponse.data!);
+    } on UnAuthorizedException catch (e) {
+      Future.delayed(
+          Durations.extralong1, () => Get.offAll(() => SigninScreen()));
+    } catch (e) {
+      getIt.registerSingleton<CartModel>(
+          CartModel(userId: getIt.get<UserModel>().Id, CartItems: []));
+      if (e is ViewException) return;
+      print(e);
+      throw e;
     } finally {
       loading(false);
       update();

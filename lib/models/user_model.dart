@@ -1,11 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:app/models/admin_prev_model.dart';
+import 'package:app/models/app_config_model.dart';
+
 class UserModel {
   int? Id;
   String? Email;
   String? PasswordHash;
-  String? Password;
+  String? password;
   String? Token;
   String? FullName;
   String? Address;
@@ -14,11 +17,14 @@ class UserModel {
   DateTime? UpdatedAt;
   bool? IsActive;
   String? Role;
+  String? FcmToken;
+  List<AdminPrevModel>? admin_prevs;
+  AppConfigModel? appConfig;
   UserModel({
     this.Id,
     this.Email,
     this.PasswordHash,
-    this.Password,
+    this.password,
     this.Token,
     this.FullName,
     this.Address,
@@ -27,13 +33,16 @@ class UserModel {
     this.UpdatedAt,
     this.IsActive,
     this.Role,
+    this.FcmToken,
+    this.admin_prevs,
+    this.appConfig,
   });
 
   UserModel copyWith({
     int? Id,
     String? Email,
     String? PasswordHash,
-    String? Password,
+    String? password,
     String? Token,
     String? FullName,
     String? Address,
@@ -42,12 +51,15 @@ class UserModel {
     DateTime? UpdatedAt,
     bool? IsActive,
     String? Role,
+    String? FcmToken,
+    List<AdminPrevModel>? admin_prevs,
+    AppConfigModel? appConfig,
   }) {
     return UserModel(
       Id: Id ?? this.Id,
       Email: Email ?? this.Email,
       PasswordHash: PasswordHash ?? this.PasswordHash,
-      Password: Password ?? this.Password,
+      password: password ?? this.password,
       Token: Token ?? this.Token,
       FullName: FullName ?? this.FullName,
       Address: Address ?? this.Address,
@@ -56,6 +68,9 @@ class UserModel {
       UpdatedAt: UpdatedAt ?? this.UpdatedAt,
       IsActive: IsActive ?? this.IsActive,
       Role: Role ?? this.Role,
+      FcmToken: FcmToken ?? this.FcmToken,
+      admin_prevs: admin_prevs ?? this.admin_prevs,
+      appConfig: appConfig ?? this.appConfig,
     );
   }
 
@@ -64,7 +79,7 @@ class UserModel {
       'Id': Id,
       'Email': Email,
       'PasswordHash': PasswordHash,
-      'Password': Password,
+      'password': password,
       'Token': Token,
       'FullName': FullName,
       'Address': Address,
@@ -73,6 +88,9 @@ class UserModel {
       'UpdatedAt': UpdatedAt?.toString(),
       'IsActive': IsActive,
       'Role': Role,
+      'FcmToken': FcmToken,
+      'admin_prevs': admin_prevs?.map((x) => x.toMap()).toList(),
+      'appConfig': appConfig?.toMap(),
     };
   }
 
@@ -82,20 +100,26 @@ class UserModel {
       Email: map['Email'] != null ? map['Email'] as String : null,
       PasswordHash:
           map['PasswordHash'] != null ? map['PasswordHash'] as String : null,
-      Password: map['Password'] != null ? map['Password'] as String : null,
+      password: map['password'] != null ? map['password'] as String : null,
       Token: map['Token'] != null ? map['Token'] as String : null,
       FullName: map['FullName'] != null ? map['FullName'] as String : null,
       Address: map['Address'] != null ? map['Address'] as String : null,
       PhoneNumber:
           map['PhoneNumber'] != null ? map['PhoneNumber'] as String : null,
-      CreatedAt: map['CreatedAt'] != null
-          ? DateTime.parse(map['CreatedAt'] as String)
-          : null,
-      UpdatedAt: map['UpdatedAt'] != null
-          ? DateTime.parse(map['UpdatedAt'] as String)
-          : null,
+      CreatedAt:
+          map['CreatedAt'] != null ? DateTime.parse(map['CreatedAt']) : null,
+      UpdatedAt:
+          map['UpdatedAt'] != null ? DateTime.parse(map['UpdatedAt']) : null,
       IsActive: map['IsActive'] != null ? map['IsActive'] as bool : null,
       Role: map['Role'] != null ? map['Role'] as String : null,
+      FcmToken: map['FcmToken'] != null ? map['FcmToken'] as String : null,
+      admin_prevs: map['admin_prevs'] != null
+          ? List<AdminPrevModel>.from(
+              map['admin_prevs'].map((x) => AdminPrevModel.fromMap(x)))
+          : null,
+      appConfig: map['appConfig'] != null
+          ? AppConfigModel.fromMap(map['appConfig'])
+          : null,
     );
   }
 
@@ -106,7 +130,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(Id: $Id, Email: $Email, PasswordHash: $PasswordHash, Token: $Token, FullName: $FullName, Address: $Address, PhoneNumber: $PhoneNumber, CreatedAt: $CreatedAt, UpdatedAt: $UpdatedAt, IsActive: $IsActive, Role: $Role)';
+    return 'UserModel(Id: $Id, Email: $Email, PasswordHash: $PasswordHash, password: $password, Token: $Token, FullName: $FullName, Address: $Address, PhoneNumber: $PhoneNumber, CreatedAt: $CreatedAt, UpdatedAt: $UpdatedAt, IsActive: $IsActive, Role: $Role, FcmToken: $FcmToken, admin_prevs: $admin_prevs, appConfig: $appConfig)';
   }
 
   @override
@@ -116,7 +140,7 @@ class UserModel {
     return other.Id == Id &&
         other.Email == Email &&
         other.PasswordHash == PasswordHash &&
-        other.Password == Password &&
+        other.password == password &&
         other.Token == Token &&
         other.FullName == FullName &&
         other.Address == Address &&
@@ -124,7 +148,9 @@ class UserModel {
         other.CreatedAt == CreatedAt &&
         other.UpdatedAt == UpdatedAt &&
         other.IsActive == IsActive &&
-        other.Role == Role;
+        other.Role == Role &&
+        other.FcmToken == FcmToken &&
+        other.appConfig == appConfig;
   }
 
   @override
@@ -132,7 +158,7 @@ class UserModel {
     return Id.hashCode ^
         Email.hashCode ^
         PasswordHash.hashCode ^
-        Password.hashCode ^
+        password.hashCode ^
         Token.hashCode ^
         FullName.hashCode ^
         Address.hashCode ^
@@ -140,6 +166,8 @@ class UserModel {
         CreatedAt.hashCode ^
         UpdatedAt.hashCode ^
         IsActive.hashCode ^
-        Role.hashCode;
+        Role.hashCode ^
+        FcmToken.hashCode ^
+        appConfig.hashCode;
   }
 }

@@ -14,11 +14,11 @@ import '../models/base_response.dart';
 class HomeScreenController extends GetxController {
   RxBool loadingCategories = false.obs;
   RxBool loadingProducts = false.obs;
-  List<CategoryModel> categories = [];
+  List<CategoryModel> categories = getIt.get<List<CategoryModel>>();
   List<ProductModel> products = [];
   @override
   void onInit() {
-    loadCategories();
+    // loadCategories();
     loadProducts();
     super.onInit();
   }
@@ -46,7 +46,7 @@ class HomeScreenController extends GetxController {
       loadingProducts(true);
       update();
       BaseResponse<List<ProductModel>> baseResponse = await Future.delayed(
-          Duration(seconds: 3),
+          Duration(seconds: 1),
           () async => await GetHomePageProductApi.callApi());
       products = baseResponse.data ?? [];
       loadingProducts(false);

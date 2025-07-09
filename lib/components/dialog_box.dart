@@ -1,3 +1,4 @@
+import 'package:app/components/my_text.dart';
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,11 +7,14 @@ import 'package:get/get.dart';
 class DialogBox extends StatelessWidget {
   final String title;
   final Widget? icon;
+  final Widget? body;
   final String message;
   final String confirmText;
   final String cancelText;
   final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
+  final TextAlign? titleAlignment;
+  final TextAlign? messageAlignment;
 
   const DialogBox({
     required this.title,
@@ -20,6 +24,9 @@ class DialogBox extends StatelessWidget {
     this.onCancel,
     this.confirmText = 'Confirm',
     this.cancelText = 'Cancel',
+    this.titleAlignment,
+    this.messageAlignment,
+    this.body,
   });
 
   @override
@@ -30,28 +37,29 @@ class DialogBox extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             icon ??
                 const Icon(Icons.warning_amber_rounded,
                     size: 60, color: MyTheme.buttonColor),
             const SizedBox(height: 16),
-            Text(
-              title,
-              style: MyTheme.getButtonStyle(
-                  fontWeight: FontWeight.bold,
-                  color: MyTheme.mainColor,
-                  fontSize: MyTheme.textSizeXLarge),
+            MyText(
+              text: title,
+              fontWeight: FontWeight.bold,
+              color: MyTheme.mainColor,
+              size: MyTheme.textSizeXLarge,
+              textAlign: titleAlignment,
             ),
             const SizedBox(height: 12),
-            Text(
-              message,
+            MyText(
+              text: message,
               textAlign: TextAlign.center,
-              style: MyTheme.getButtonStyle(
-                color: MyTheme.textColor,
-              ),
+              color: MyTheme.textColor,
             ),
             const SizedBox(height: 24),
+            body ?? Container(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

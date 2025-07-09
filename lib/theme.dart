@@ -15,6 +15,8 @@ class MyTheme {
   static const Color labelColor = Color(0xff472D2D);
   static const Color buttonColor = Color(0xffD5955D);
   static const Color offWhiteColor = Color.fromARGB(255, 255, 255, 255);
+  static const Color warnColor = Colors.red;
+  static const Color greenColor = Colors.green;
   static const double buttonsRadius = 12.0;
   static const double buttonsFontSize = 12.0;
   static const double textSizeXLarge = 22;
@@ -28,12 +30,14 @@ class MyTheme {
   static getButtonStyle(
       {final Color? color,
       final FontWeight? fontWeight,
-      final double? fontSize}) {
+      final double? fontSize,
+      final TextDecoration? textDecoration}) {
     return GoogleFonts.cairo(
       textStyle: TextStyle(
           color: color ?? whiteColor,
           fontWeight: fontWeight ?? FontWeight.w500,
-          fontSize: fontSize ?? textSizeSmall),
+          fontSize: fontSize ?? textSizeSmall,
+          decoration: textDecoration),
     );
   }
 }

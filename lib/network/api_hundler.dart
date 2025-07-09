@@ -56,8 +56,9 @@ class ApiHandler {
               .timeout(timeout);
           break;
         case 'DELETE':
-          response =
-              await http.delete(url, headers: requestHeaders).timeout(timeout);
+          response = await http
+              .delete(url, headers: requestHeaders, body: jsonEncode(body))
+              .timeout(timeout);
           break;
         default:
           throw Exception("Invalid HTTP method");
@@ -71,11 +72,13 @@ class ApiHandler {
     } on HttpException {
       throw NoInternetException();
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
 
   Map _handleResponse(http.Response response) {
+    // print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -98,7 +101,7 @@ class ApiHandler {
             throw ViewException(
                 statusCode: decodedResponse['code'],
                 message: decodedResponse['message'],
-                data: null);
+                data: decodedResponse['data']);
           } else {
             throw Exception("Server Error: ${response.body}");
           }
@@ -117,6 +120,7 @@ class ApiHandler {
   Future<dynamic> put(String endpoint,
           {Map<String, dynamic>? body, Map<String, String>? headers}) =>
       _request(endpoint, 'PUT', body: body, headers: headers);
-  Future<dynamic> delete(String endpoint, {Map<String, String>? headers}) =>
-      _request(endpoint, 'DELETE', headers: headers);
+  Future<dynamic> delete(String endpoint,
+          {Map<String, dynamic>? body, Map<String, String>? headers}) =>
+      _request(endpoint, 'DELETE', headers: headers, body: body);
 }

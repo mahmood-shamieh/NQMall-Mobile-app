@@ -20,71 +20,74 @@ class ImageAttributeScrollWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MyText(
-          text:
-              "${LocalizationService.getCurrentLocale().languageCode == "ar" ? attributeModel.NameAr.toString() : attributeModel.NameEn.toString()}:",
-          color: MyTheme.textColor,
-          fontWeight: FontWeight.w500,
-        ),
-        SizedBox(
-            height: 75,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: (attributeModel.values ?? [])
-                  .map((v) => InkWell(
-                        onTap: () => action(
-                            valueModel: v, attributeModel: attributeModel),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: MyTheme.borderColor, width: 2),
-                            color: selectedValue != null &&
-                                    selectedValue!.Id == v.Id
-                                ? MyTheme.buttonColor
-                                : MyTheme.whiteColor,
-                            borderRadius: BorderRadius.circular(
-                              MyTheme.buttonsRadius,
-                            ),
-                          ),
-                          margin: const EdgeInsetsDirectional.symmetric(
-                              horizontal: 4, vertical: 2),
-                          child: Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                MyTheme.buttonsRadius,
-                              ),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  "${NetworkURLs.getMediaServer()}${LocalizationService.getCurrentLocale().languageCode == "ar" ? v.ValueAr.toString() : v.ValueEn.toString()}",
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MyText(
+            text:
+                "${LocalizationService.getCurrentLocale().languageCode == "ar" ? attributeModel.NameAr.toString() : attributeModel.NameEn.toString()}:",
+            color: MyTheme.textColor,
+            fontWeight: FontWeight.w500,
+            size: MyTheme.textSizeLarge,
+          ),
+          SizedBox(
+              height: 65,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: (attributeModel.values ?? [])
+                    .map((v) => Stack(
+                          children: [
+                            InkWell(
+                              onTap: () => action(
+                                  valueModel: v,
+                                  attributeModel: attributeModel),
+                              child: Container(
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: MyTheme.borderColor, width: 2),
+                                  color: selectedValue != null &&
+                                          selectedValue!.Id == v.Id
+                                      ? MyTheme.buttonColor
+                                      : MyTheme.whiteColor,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      "${NetworkURLs.getMediaServer()}${LocalizationService.getCurrentLocale().languageCode == "ar" ? v.ValueAr.toString() : v.ValueEn.toString()}",
+                                    ),
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                    MyTheme.buttonsRadius,
+                                  ),
                                 ),
+                                margin: const EdgeInsetsDirectional.symmetric(
+                                    horizontal: 4, vertical: 2),
                               ),
                             ),
-                            child: selectedValue != null &&
-                                    selectedValue!.Id == v.Id
+                            selectedValue != null && selectedValue!.Id == v.Id
                                 ? Container(
+                                    margin: const EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(2),
                                     decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: const Color.fromARGB(
-                                            255, 35, 30, 26)),
-                                    child: Icon(
+                                      color: MyTheme.buttonColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
                                       Icons.check,
                                       color: MyTheme.whiteColor,
-                                      size: 40,
+                                      size: 20,
                                     ),
                                   )
                                 : Container(),
-                          ),
-                        ),
-                      ))
-                  .toList(),
-            ))
-      ],
+                          ],
+                        ))
+                    .toList(),
+              ))
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,11 @@
+import 'package:app/controllers/brands_screen_controller.dart';
+import 'package:app/controllers/cart_screen_controller.dart';
 import 'package:app/controllers/home_screen_controller.dart';
 import 'package:app/controllers/search_screen_controller.dart';
 import 'package:app/localization_service.dart';
 import 'package:app/main.dart';
+import 'package:app/screens/brands_screen.dart';
+import 'package:app/screens/cart_screen.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/profile_screen.dart';
 import 'package:app/screens/search_screen.dart';
@@ -21,16 +25,22 @@ class StyleWidget extends StatelessWidget {
 
   void restTheScreenState(int index) {
     HomeScreenController homeScreenController;
-    SearchScreenController searchScreenController;
+    // SearchScreenController searchScreenController;
+    CartScreenController cartScreenController;
     try {
       switch (index) {
         case 0:
           homeScreenController = Get.find<HomeScreenController>();
           homeScreenController.onInit();
           break;
-        case 2:
-          searchScreenController = Get.find<SearchScreenController>();
-          searchScreenController.onInit();
+        case 1:
+          cartScreenController = Get.find<CartScreenController>();
+          cartScreenController.getCartDetails();
+          break;
+        case 4:
+          BrandsScreenController brandsScreenController =
+              Get.find<BrandsScreenController>();
+          brandsScreenController.update();
           break;
         default:
       }
@@ -70,13 +80,11 @@ class StyleWidget extends StatelessWidget {
 
 List<Widget> _buildScreens() {
   return [
-    HomeScreen(),
-    Screen2(),
-    SearchScreen(
-      key: UniqueKey(),
-    ),
-    ProfileScreen(),
-    Screen3(),
+    const HomeScreen(),
+    const CartScreen(),
+    const SearchScreen(),
+    const ProfileScreen(),
+    const BrandsScreen()
   ];
 }
 
@@ -93,9 +101,10 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
     ),
     PersistentBottomNavBarItem(
       icon: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: const Icon(FontAwesomeIcons.gift)),
-      title: 'bottomBar.offers'.tr,
+        padding: const EdgeInsets.only(top: 8),
+        child: const Icon(Icons.shopping_bag_rounded),
+      ),
+      title: 'bottomBar.cart'.tr,
       activeColorPrimary: MyTheme.mainColor,
       inactiveColorPrimary: MyTheme.textColor,
       textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
@@ -121,7 +130,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       icon: Padding(
           padding: const EdgeInsets.only(top: 8),
           child: const Icon(FontAwesomeIcons.boxes)),
-      title: 'bottomBar.categories'.tr,
+      title: 'bottomBar.brands'.tr,
       activeColorPrimary: MyTheme.mainColor,
       inactiveColorPrimary: MyTheme.textColor,
       textStyle: MyTheme.getButtonStyle(fontSize: MyTheme.textSizeXXSmall),
