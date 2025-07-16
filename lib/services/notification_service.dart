@@ -46,7 +46,7 @@ class NotificationService extends GetxService {
         // Get FCM token for web
         this.fcmToken = await _firebaseMessaging.getToken(
           vapidKey:
-              'BPipuGOOwEkQE3Vlc63tGkT_qngLcuFcmPout5ER3rOt9AEhS5ej3_oEBktA3LTpZZRzmR86n400Gvn-7V-_iTs',
+              'BP6bcoigwtRDIqZnp8CBcMYgLnJhy-eWehNawzT2bKtItRz009M3X1mLx5bN7DzhokpVzJCk8Ex41nC07M246cE',
         );
 
         // Handle incoming messages when app is in foreground (web)
