@@ -38,7 +38,6 @@ class AddToCartApi {
           response, (p0) => CartModel.fromMap(p0));
       return baseResponse;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

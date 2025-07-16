@@ -64,12 +64,12 @@ class SplashScreenController extends GetxController {
   }
 
   void moveToOnBoarding() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 0));
     Get.offAll(OnBoardingScreen());
   }
 
   void moveToSigninScreen() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 0));
     Get.offAll(SigninScreen());
   }
 
@@ -131,8 +131,7 @@ class SplashScreenController extends GetxController {
       Future.delayed(
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
-      print(e);
-      throw e;
+      rethrow;
     } finally {
       loading(false);
       update();
@@ -174,8 +173,7 @@ class SplashScreenController extends GetxController {
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
       if (e is ViewException) return;
-      print(e);
-      throw e;
+      rethrow;
     } finally {
       loading(false);
       update();
@@ -196,8 +194,7 @@ class SplashScreenController extends GetxController {
       getIt.registerSingleton<CartModel>(
           CartModel(userId: getIt.get<UserModel>().Id, CartItems: []));
       if (e is ViewException) return;
-      print(e);
-      throw e;
+      rethrow;
     } finally {
       loading(false);
       update();

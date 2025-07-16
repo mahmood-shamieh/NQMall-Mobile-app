@@ -1,3 +1,4 @@
+import 'package:app/components/my_text.dart';
 import 'package:app/controllers/brands_screen_controller.dart';
 import 'package:app/controllers/cart_screen_controller.dart';
 import 'package:app/controllers/home_screen_controller.dart';
@@ -35,7 +36,7 @@ class StyleWidget extends StatelessWidget {
           break;
         case 1:
           cartScreenController = Get.find<CartScreenController>();
-          cartScreenController.getCartDetails();
+          cartScreenController.onInit();
           break;
         case 4:
           BrandsScreenController brandsScreenController =
@@ -50,28 +51,32 @@ class StyleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: PersistentTabView(
-        context,
-        controller: controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        onItemSelected: (value) {
-          restTheScreenState(value);
-        },
-        // popAllScreensOnTapOfSelectedTab: true,
-        // confineInSafeArea: true,
-        backgroundColor: MyTheme.offWhiteColor, // Optional background color
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        decoration: const NavBarDecoration(boxShadow: [
-          BoxShadow(
-            color: MyTheme.shadowColor,
-            blurRadius: 10,
-            spreadRadius: 2,
-          )
-        ]),
-        stateManagement: false,
-        navBarStyle: NavBarStyle.style15, // Choose the style you like
+      bottomNavigationBar: Container(
+        color: MyTheme.buttonColor,
+        padding: const EdgeInsets.only(top: kToolbarHeight),
+        child: PersistentTabView(
+          context,
+          controller: controller,
+          screens: _buildScreens(),
+          items: _navBarsItems(),
+          onItemSelected: (value) {
+            restTheScreenState(value);
+          },
+          // popAllScreensOnTapOfSelectedTab: true,
+          confineToSafeArea: true,
+          backgroundColor: MyTheme.offWhiteColor, // Optional background color
+          handleAndroidBackButtonPress: true,
+          resizeToAvoidBottomInset: true,
+          decoration: const NavBarDecoration(boxShadow: [
+            BoxShadow(
+              color: MyTheme.shadowColor,
+              blurRadius: 10,
+              spreadRadius: 2,
+            )
+          ]),
+          stateManagement: false,
+          navBarStyle: NavBarStyle.style15, // Choose the style you like
+        ),
       ),
       // body: ,
     );

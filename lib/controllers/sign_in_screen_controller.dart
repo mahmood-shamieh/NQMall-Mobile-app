@@ -5,6 +5,7 @@ import 'package:app/components/style_widget.dart';
 import 'package:app/controllers/base_controller.dart';
 import 'package:app/data/get_all_brand_api.dart';
 import 'package:app/data/get_all_category_api.dart';
+import 'package:app/data/get_cart_details_api.dart';
 import 'package:app/data/sign_in_api.dart';
 import 'package:app/exceptions/unauthorized_exception.dart';
 import 'package:app/exceptions/view_exception.dart';
@@ -94,10 +95,8 @@ class SignInScreenController extends BaseController {
     }
     try {
       loading(true);
-      BaseResponse<UserModel> baseResponse = await Future.delayed(
-          Duration(seconds: 0),
-          () async => await SigninApi.callApi(
-              username: username.text, passowrd: password.text));
+      BaseResponse<UserModel> baseResponse = await SigninApi.callApi(
+          username: username.text, passowrd: password.text);
       UserModel userModel = baseResponse.data!;
       userModel.password = password.text.trim();
       GetStorage getStorage = getIt.get<GetStorage>();
@@ -128,6 +127,7 @@ class SignInScreenController extends BaseController {
       getIt.registerSingleton<UserModel>(userModel);
       await getCategories();
       await getBrands();
+      await getCartDetails();
       Get.offAll(() => StyleWidget());
     } on UnAuthorizedException catch (e) {
       Get.dialog(
@@ -138,7 +138,30 @@ class SignInScreenController extends BaseController {
         ),
       );
     } catch (e) {
-      print(e);
+      rethrow;
+    } finally {
+      loading(false);
+      update();
+    }
+  }
+
+  Future getCartDetails() async {
+    GetStorage getStorage = getIt.get<GetStorage>();
+    try {
+      loading(true);
+      myBaseResponse.BaseResponse<CartModel> baseResponse =
+          await GetCartDetailsApi.callApi(userModel: getIt.get<UserModel>());
+      CartModel cartModel = baseResponse.data!;
+
+      getIt.registerSingleton<CartModel>(cartModel);
+    } on UnAuthorizedException catch (e) {
+      Future.delayed(
+          Durations.extralong1, () => Get.offAll(() => SigninScreen()));
+    } catch (e) {
+      getIt.registerSingleton<CartModel>(
+          CartModel(userId: getIt.get<UserModel>().Id, CartItems: []));
+      if (e is ViewException) return;
+      rethrow;
     } finally {
       loading(false);
       update();
@@ -147,8 +170,8 @@ class SignInScreenController extends BaseController {
 
   Future getCategories() async {
     try {
-      loading(true);
-      update();
+      // loading(true);
+      // update();
       BaseResponse<List<CategoryModel>> baseResponse =
           await GetAllCategoriesApi.callApi();
       getIt.registerSingleton<List<CategoryModel>>(baseResponse.data!);
@@ -157,18 +180,17 @@ class SignInScreenController extends BaseController {
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
       if (e is ViewException) return;
-      print(e);
-      throw e;
+      rethrow;
     } finally {
-      loading(false);
-      update();
+      // loading(false);
+      // update();
     }
   }
 
   Future getBrands() async {
     try {
-      loading(true);
-      update();
+      // loading(true);
+      // update();
       myBaseResponse.BaseResponse<List<BrandModel>> baseResponse =
           await GetAllBrandApi.callApi();
       getIt.registerSingleton<List<BrandModel>>(baseResponse.data!);
@@ -179,11 +201,10 @@ class SignInScreenController extends BaseController {
       getIt.registerSingleton<CartModel>(
           CartModel(userId: getIt.get<UserModel>().Id, CartItems: []));
       if (e is ViewException) return;
-      print(e);
-      throw e;
+      rethrow;
     } finally {
-      loading(false);
-      update();
+      // loading(false);
+      // update();
     }
   }
 }

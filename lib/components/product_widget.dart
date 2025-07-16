@@ -7,6 +7,7 @@ import 'package:app/models/product_model.dart';
 import 'package:app/network/network_urls.dart';
 import 'package:app/theme.dart';
 import 'package:app/utils/convert_to_url.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,8 +38,11 @@ class ProductWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(MyTheme.buttonsRadius),
                     color: MyTheme.borderColor,
                     image: DecorationImage(
-                        image: NetworkImage(
-                            "${NetworkURLs.getMediaServer()}${productModel.media?[0].URL?.convertToUrl()}"))),
+                        image: CachedNetworkImageProvider(productModel.media ==
+                                    null ||
+                                productModel.media!.isEmpty
+                            ? "${NetworkURLs.getMediaServer()}${"media\\defaultImage.jpg".convertToUrl()}"
+                            : "${NetworkURLs.getMediaServer()}${productModel.media?[0].URL?.convertToUrl()}"))),
               ),
             ),
             MyText(
@@ -51,22 +55,20 @@ class ProductWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: MyText(
-                    text:
-                        "${productModel.Price.toString()}${'ProductDetailsScreen.unit'.tr}",
-                    color: MyTheme.thirdColor,
-                    fontWeight: productModel.SalePrice != null &&
-                            productModel.SalePrice != 0
-                        ? FontWeight.normal
-                        : FontWeight.bold,
-                    textAlign: TextAlign.center,
-                    size: 14,
-                    textDecoration: productModel.SalePrice != null &&
-                            productModel.SalePrice != 0
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
-                  ),
+                MyText(
+                  text:
+                      "${productModel.Price.toString()}${'ProductDetailsScreen.unit'.tr}",
+                  color: MyTheme.thirdColor,
+                  fontWeight: productModel.SalePrice != null &&
+                          productModel.SalePrice != 0
+                      ? FontWeight.normal
+                      : FontWeight.bold,
+                  textAlign: TextAlign.center,
+                  size: 14,
+                  textDecoration: productModel.SalePrice != null &&
+                          productModel.SalePrice != 0
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
                 ),
                 const SizedBox(
                   width: 10,
@@ -74,15 +76,13 @@ class ProductWidget extends StatelessWidget {
                 Visibility(
                   visible: productModel.SalePrice != null &&
                       productModel.SalePrice != 0,
-                  child: Expanded(
-                    child: MyText(
-                      text:
-                          "${productModel.SalePrice.toString()}${'ProductDetailsScreen.unit'.tr}",
-                      color: MyTheme.thirdColor,
-                      fontWeight: FontWeight.bold,
-                      textAlign: TextAlign.center,
-                      size: 14,
-                    ),
+                  child: MyText(
+                    text:
+                        "${productModel.SalePrice.toString()}${'ProductDetailsScreen.unit'.tr}",
+                    color: MyTheme.thirdColor,
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.center,
+                    size: 14,
                   ),
                 ),
               ],

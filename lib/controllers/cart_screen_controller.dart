@@ -36,7 +36,6 @@ class CartScreenController extends BaseController {
   }
 
   addAndRemoveToDeletedCArtItems({required CartItemModel cartItemModel}) {
-    // print(itemsToDelete.value);
     if (itemsToDelete.value.contains(cartItemModel)) {
       itemsToDelete.value.remove(cartItemModel);
     } else {
@@ -108,6 +107,7 @@ class CartScreenController extends BaseController {
 
   Future getCartDetails() async {
     GetStorage getStorage = getIt.get<GetStorage>();
+
     if (getStorage.read(LocalStorageKeys.userModelKey.key) == null) return;
     try {
       loading(true);
@@ -124,7 +124,6 @@ class CartScreenController extends BaseController {
       Future.delayed(
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
-      print(e);
       getIt.registerSingleton<CartModel>(
           CartModel(userId: getIt.get<UserModel>().Id, CartItems: []));
       if (e is ViewException) return;

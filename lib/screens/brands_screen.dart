@@ -31,7 +31,6 @@ class BrandsScreen extends StatelessWidget {
               size: MyTheme.textSizeXLarge,
               color: MyTheme.offWhiteColor,
             ),
-            elevation: 0,
           ),
           body: controller.loading.value
               ? const Center(
@@ -74,6 +73,7 @@ class BrandsScreen extends StatelessWidget {
                                         getIt
                                             .get<PersistentTabController>()
                                             .jumpToTab(2);
+                                        screenController.loadSearchResult();
                                       },
                                     ),
                                   ),

@@ -60,7 +60,7 @@ class NotificationService extends GetxService {
         });
       }
     } catch (e) {
-      // print('Error initializing web messaging: $e');
+      e.printError();
     }
   }
 
@@ -114,7 +114,6 @@ class NotificationService extends GetxService {
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
         // Handle notification tap
-        // print('Notification tapped: ${response.payload}');
       },
     );
 
@@ -125,13 +124,11 @@ class NotificationService extends GetxService {
 
     // Handle notification tap when app is in background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      // print('Message opened from background: ${message.data}');
       // Handle navigation or other actions when notification is tapped
     });
 
     // Get FCM token for mobile
     this.fcmToken = await _firebaseMessaging.getToken();
-    print(fcmToken);
   }
 
   Future<void> _showNotification(RemoteMessage message) async {

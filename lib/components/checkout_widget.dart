@@ -5,6 +5,7 @@ import 'package:app/network/network_urls.dart';
 import 'package:app/theme.dart';
 import 'package:app/utils/convert_to_url.dart';
 import 'package:app/utils/number_formater.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,7 @@ class CheckOutItemWidget extends StatelessWidget {
                 child: Image(
                   width: 70,
                   fit: BoxFit.fill,
-                  image: NetworkImage(
+                  image: CachedNetworkImageProvider(
                     "${NetworkURLs.getMediaServer()}${cartItemModel.product!.media!.first.URL.toString().convertToUrl()}",
                   ),
                 ),
@@ -99,7 +100,7 @@ class CheckOutItemWidget extends StatelessWidget {
                                             MyTheme.buttonsRadius),
                                         image: DecorationImage(
                                           fit: BoxFit.fill,
-                                          image: NetworkImage(
+                                          image: CachedNetworkImageProvider(
                                             "${NetworkURLs.getMediaServer()}${LocalizationService.getCurrentLocale().countryCode == "ar" ? e.ValueAr : e.ValueEn}",
                                           ),
                                         ),

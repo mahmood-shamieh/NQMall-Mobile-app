@@ -1,7 +1,7 @@
 import 'package:app/theme.dart';
 import 'package:flutter/material.dart';
 
-class MyTextField extends StatelessWidget {
+class MyTextField extends StatefulWidget {
   final String hintText;
   final Color? color;
   final String? errorText;
@@ -32,32 +32,56 @@ class MyTextField extends StatelessWidget {
   });
 
   @override
+  State<MyTextField> createState() => _MyTextFieldState();
+}
+
+class _MyTextFieldState extends State<MyTextField> {
+  bool _obscure = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscure = widget.obscureText;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // height: 85,
       child: TextFormField(
-        controller: controller,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        validator: validator,
-        onChanged: onChanged,
-        style: textStyle ??
+        controller: widget.controller,
+        keyboardType: widget.keyboardType,
+        obscureText: _obscure,
+        validator: widget.validator,
+        onChanged: widget.onChanged,
+        style: widget.textStyle ??
             MyTheme.getButtonStyle(
                 color: MyTheme.textColor, fontSize: MyTheme.textFieldTextSize),
         decoration: InputDecoration(
-          fillColor: color,
-          filled: color == null ? false : true,
-          hintText: hintText,
-          errorText: errorText,
+          fillColor: widget.color,
+          filled: widget.color == null ? false : true,
+          hintText: widget.hintText,
+          errorText: widget.errorText,
           errorStyle: MyTheme.getButtonStyle(
               color: Colors.red[400], fontSize: MyTheme.textSizeXXSmall),
-          prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-          suffixIcon: suffixIcon != null
+          prefixIcon:
+              widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
+          suffixIcon: widget.suffixIcon != null
               ? GestureDetector(
-                  onTap: onSuffixTap,
-                  child: Icon(suffixIcon),
+                  onTap: widget.onSuffixTap,
+                  child: Icon(widget.suffixIcon),
                 )
-              : null,
+              : widget.obscureText
+                  ? IconButton(
+                      icon: Icon(
+                        _obscure ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscure = !_obscure;
+                        });
+                      },
+                    )
+                  : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: MyTheme.borderColor, width: 2),

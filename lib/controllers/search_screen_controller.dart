@@ -33,18 +33,20 @@ class SearchScreenController extends GetxController {
   @override
   void onInit() async {
     products.clear();
-    // scrollController.addListener(() {
-    //   if (scrollController.position.pixels ==
-    //       scrollController.position.maxScrollExtent) {
-    //     page += 1;
-    //     loadSearchResult();
-    //   }
-    // });
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        page += 1;
+        loadSearchResult();
+      }
+    });
     loadSearchResult();
     super.onInit();
   }
 
   void addToSelectedCategories({required CategoryModel categoryModel}) {
+    products.clear();
+    page = 1;
     if (selectedCategories.value.contains(categoryModel)) {
       selectedCategories.value.remove(categoryModel);
     } else {
@@ -54,6 +56,8 @@ class SearchScreenController extends GetxController {
   }
 
   void addToSelectedBrands({required BrandModel brandModel}) {
+    products.clear();
+    page = 1;
     if (selectedBrands.value.contains(brandModel)) {
       selectedBrands.value.remove(brandModel);
     } else {
@@ -64,9 +68,12 @@ class SearchScreenController extends GetxController {
 
   void toggleFilterDialog() {
     showFilterDialog.value = !showFilterDialog.value;
-    page = 1;
-    products.clear();
-    loadSearchResult();
+    if (!showFilterDialog.value) {
+      page = 1;
+      products.clear();
+      loadSearchResult();
+    }
+
     update();
   }
 

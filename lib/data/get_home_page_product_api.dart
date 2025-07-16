@@ -31,7 +31,6 @@ class GetHomePageProductApi {
                   (p0 as List).map((e) => ProductModel.fromMap(e)).toList());
       return baseResponse;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

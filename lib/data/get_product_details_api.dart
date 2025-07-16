@@ -30,7 +30,6 @@ class GetProductDetailsApi {
               response, (p0) => ProductModel.fromMap(p0));
       return baseResponse;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

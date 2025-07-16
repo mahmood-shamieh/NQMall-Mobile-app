@@ -41,8 +41,11 @@ class CartScreen extends StatelessWidget {
                   children: [
                     SingleChildScrollView(
                       child: Container(
-                        padding:
-                            const EdgeInsets.only(top: 12, left: 8, right: 8),
+                        padding: const EdgeInsets.only(
+                          top: 12,
+                          left: 8,
+                          right: 8,
+                        ),
                         width: double.infinity,
                         child: (controller.cartModel?.CartItems ?? [])
                                 .isNotEmpty
@@ -73,10 +76,13 @@ class CartScreen extends StatelessWidget {
                                   )
                                 ],
                               )
-                            : Center(
-                                child: MyText(
-                                  text: "empty".tr,
-                                  color: MyTheme.textColor,
+                            : Container(
+                                height: MediaQuery.of(context).size.height / 2,
+                                child: Center(
+                                  child: MyText(
+                                    text: "empty".tr,
+                                    color: MyTheme.textColor,
+                                  ),
                                 ),
                               ),
                       ),
@@ -84,7 +90,8 @@ class CartScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
+                        padding: const EdgeInsets.only(bottom: 20)
+                            .add(const EdgeInsets.symmetric(horizontal: 10)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -105,10 +112,13 @@ class CartScreen extends StatelessWidget {
                               visible: (controller.cartModel?.CartItems ?? [])
                                   .isNotEmpty,
                               child: MyButton(
-                                  text: "cartScreen.submit".tr,
-                                  onPressed: () => Get.to(() => CheckOutScreen(
-                                        cartModel: controller.cartModel!,
-                                      ))),
+                                text: "cartScreen.submit".tr,
+                                onPressed: () => Get.to(
+                                  () => CheckOutScreen(
+                                    cartModel: controller.cartModel!,
+                                  ),
+                                ),
+                              ),
                             )
                           ],
                         ),

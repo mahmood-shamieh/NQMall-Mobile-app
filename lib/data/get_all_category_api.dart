@@ -30,7 +30,6 @@ class GetAllCategoriesApi {
                   (p0 as List).map((e) => CategoryModel.fromMap(e)).toList());
       return baseResponse;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

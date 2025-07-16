@@ -8,10 +8,8 @@ class BaseController extends GetxController {
     try {
       return action();
     } on NoInternetException catch (e) {
-      print(e.message);
       throw NoInternetException();
     } on ViewException catch (e) {
-      print(e.message);
       throw ViewException(
           statusCode: e.statusCode, message: e.message, data: e.data);
     } catch (e) {

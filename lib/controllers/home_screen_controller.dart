@@ -27,9 +27,8 @@ class HomeScreenController extends GetxController {
     try {
       loadingCategories(true);
       update();
-      BaseResponse<List<CategoryModel>> baseResponse = await Future.delayed(
-          Duration(seconds: 1),
-          () async => await GetAllCategoriesApi.callApi());
+      BaseResponse<List<CategoryModel>> baseResponse =
+          await await GetAllCategoriesApi.callApi();
       categories = baseResponse.data ?? [];
       loadingCategories(false);
       update();
@@ -45,9 +44,8 @@ class HomeScreenController extends GetxController {
     try {
       loadingProducts(true);
       update();
-      BaseResponse<List<ProductModel>> baseResponse = await Future.delayed(
-          Duration(seconds: 1),
-          () async => await GetHomePageProductApi.callApi());
+      BaseResponse<List<ProductModel>> baseResponse =
+          await GetHomePageProductApi.callApi();
       products = baseResponse.data ?? [];
       loadingProducts(false);
       update();

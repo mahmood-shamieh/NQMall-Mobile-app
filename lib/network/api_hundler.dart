@@ -3,12 +3,20 @@ import 'dart:io';
 import 'package:app/exceptions/no_internet_excpetion.dart';
 import 'package:app/exceptions/unauthorized_exception.dart';
 import 'package:app/exceptions/view_exception.dart';
+import 'package:get/get_utils/src/extensions/export.dart';
 import 'package:http/http.dart' as http;
 // import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ApiHandler {
   final String baseUrl;
-  Map<String, String>? defaultHeaders = {'Content-Type': 'application/json'};
+  Map<String, String>? defaultHeaders = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache',
+    'User-Agent': 'PostmanRuntime/7.44.1',
+    'Accept': '*/*',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive'
+  };
   final Duration timeout;
 
   ApiHandler({
@@ -36,7 +44,6 @@ class ApiHandler {
       ...defaultHeaders!,
       if (headers != null) ...headers
     };
-
     try {
       late http.Response response;
 
@@ -72,13 +79,12 @@ class ApiHandler {
     } on HttpException {
       throw NoInternetException();
     } catch (e) {
-      print(e);
+      e.printError();
       rethrow;
     }
   }
 
   Map _handleResponse(http.Response response) {
-    // print(response.body);
     switch (response.statusCode) {
       case 200:
       case 201:

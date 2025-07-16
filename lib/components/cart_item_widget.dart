@@ -3,6 +3,7 @@ import 'package:app/models/cart_item_model.dart';
 import 'package:app/theme.dart';
 import 'package:app/utils/convert_to_url.dart';
 import 'package:app/utils/number_formater.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -54,7 +55,7 @@ class CartItemWidget extends StatelessWidget {
                 child: Image(
                   width: MediaQuery.of(context).size.width / 3,
                   fit: BoxFit.fill,
-                  image: NetworkImage(
+                  image: CachedNetworkImageProvider(
                     "${NetworkURLs.getMediaServer()}${cartItemModel.product!.media!.first.URL.toString().convertToUrl()}",
                   ),
                 ),
@@ -68,6 +69,7 @@ class CartItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
+                      padding: const EdgeInsetsDirectional.only(end: 25),
                       text:
                           LocalizationService.getCurrentLocale().languageCode ==
                                   "ar"
@@ -114,7 +116,7 @@ class CartItemWidget extends StatelessWidget {
                                             MyTheme.buttonsRadius),
                                         image: DecorationImage(
                                           fit: BoxFit.fill,
-                                          image: NetworkImage(
+                                          image: CachedNetworkImageProvider(
                                             "${NetworkURLs.getMediaServer()}${LocalizationService.getCurrentLocale().countryCode == "ar" ? e.ValueAr : e.ValueEn}",
                                           ),
                                         ),

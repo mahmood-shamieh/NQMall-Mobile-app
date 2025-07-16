@@ -7,6 +7,7 @@ import 'package:app/models/user_model.dart';
 import 'package:app/models/variation_model.dart';
 import 'package:app/network/api_hundler.dart';
 import 'package:app/network/network_urls.dart';
+import 'package:get/get.dart';
 
 import '../models/cart_item_model.dart';
 
@@ -23,13 +24,14 @@ class RemoveFromCartByVariationIdApi {
       },
     );
     try {
-      Map<String, dynamic> response = await apiHandler.delete("/carts",
+      Map<String, dynamic> response = await apiHandler.delete(
+          "/carts/variation",
           body: {"variations": variations.map((e) => e.Id).toList()});
       BaseResponse<CartModel> baseResponse = BaseResponse<CartModel>.fromMap(
           response, (p0) => CartModel.fromMap(p0));
       return baseResponse;
     } catch (e) {
-      print(e);
+      e.printError();
       rethrow;
     }
   }

@@ -41,8 +41,7 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0)
-                        .add(const EdgeInsets.only(top: 60)),
+                    padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
                         const Icon(
@@ -128,57 +127,57 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  CarouselWidget(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: MyTheme.whiteColor,
-                          borderRadius: BorderRadius.circular(
-                            MyTheme.buttonsRadius,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: MyTheme.shadowColor,
-                              offset: Offset(0, 1),
-                              blurRadius: 1,
-                              spreadRadius: 0.1,
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const MyText(
-                                text: "العنوان",
-                                color: MyTheme.textColor,
-                                size: MyTheme.textSizeXLarge,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              const MyText(
-                                text: "وصف مبسط أو شرح عن العرض",
-                                color: MyTheme.textColorLight,
-                                size: MyTheme.textSizeSmall,
-                              ),
-                              MyButton(
-                                  width: 120,
-                                  height: 40,
-                                  backgroundColor: MyTheme.thirdColor,
-                                  margin: const EdgeInsets.only(top: 10),
-                                  text: 'homeScreen.offerAction'.tr,
-                                  fontWeight: FontWeight.w500,
-                                  onPressed: () {})
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  // CarouselWidget(
+                  //   children: [
+                  //     Container(
+                  //       width: double.infinity,
+                  //       margin: const EdgeInsets.all(4),
+                  //       decoration: BoxDecoration(
+                  //         color: MyTheme.whiteColor,
+                  //         borderRadius: BorderRadius.circular(
+                  //           MyTheme.buttonsRadius,
+                  //         ),
+                  //         boxShadow: const [
+                  //           BoxShadow(
+                  //             color: MyTheme.shadowColor,
+                  //             offset: Offset(0, 1),
+                  //             blurRadius: 1,
+                  //             spreadRadius: 0.1,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.symmetric(
+                  //             horizontal: 18, vertical: 10),
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.start,
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             const MyText(
+                  //               text: "العنوان",
+                  //               color: MyTheme.textColor,
+                  //               size: MyTheme.textSizeXLarge,
+                  //               fontWeight: FontWeight.w500,
+                  //             ),
+                  //             const MyText(
+                  //               text: "وصف مبسط أو شرح عن العرض",
+                  //               color: MyTheme.textColorLight,
+                  //               size: MyTheme.textSizeSmall,
+                  //             ),
+                  //             MyButton(
+                  //                 width: 120,
+                  //                 height: 40,
+                  //                 backgroundColor: MyTheme.thirdColor,
+                  //                 margin: const EdgeInsets.only(top: 10),
+                  //                 text: 'homeScreen.offerAction'.tr,
+                  //                 fontWeight: FontWeight.w500,
+                  //                 onPressed: () {})
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                   MyText(
                     padding: EdgeInsets.all(8),
                     text: 'homeScreen.title1'.tr,
@@ -195,41 +194,41 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Padding(
+                      : Container(
+                          width: double.infinity,
                           padding: const EdgeInsets.all(8.0),
-                          child: GridView.builder(
-                            itemCount: controller.categories.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                              childAspectRatio: 0.75,
-                            ),
-                            itemBuilder: (context, index) {
-                              return CategoryWidget(
-                                action: () {
-                                  late SearchScreenController screenController;
-                                  try {
-                                    screenController =
-                                        Get.find<SearchScreenController>();
-                                  } catch (e) {
-                                    screenController =
-                                        Get.put<SearchScreenController>(
-                                            SearchScreenController());
-                                  }
-                                  screenController.addToSelectedCategories(
-                                      categoryModel:
-                                          controller.categories[index]);
-                                  getIt
-                                      .get<PersistentTabController>()
-                                      .jumpToTab(2);
-                                },
-                                categoryModel: controller.categories[index],
-                              );
-                            },
+                          child: Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 8, // horizontal spacing between items
+                            runSpacing: 8, // vertical spacing between lines
+                            children: controller.categories.map((category) {
+                              return SizedBox(
+                                  width:
+                                      (MediaQuery.of(context).size.width / 3) -
+                                          16, // 2 items per row minus padding
+                                  child: CategoryWidget(
+                                    action: () {
+                                      late SearchScreenController
+                                          screenController;
+                                      try {
+                                        screenController =
+                                            Get.find<SearchScreenController>();
+                                      } catch (e) {
+                                        screenController =
+                                            Get.put<SearchScreenController>(
+                                                SearchScreenController());
+                                      }
+                                      screenController.addToSelectedCategories(
+                                          categoryModel: category);
+                                      getIt
+                                          .get<PersistentTabController>()
+                                          .jumpToTab(2);
+                                      screenController.loadSearchResult();
+                                    },
+                                    categoryModel: category,
+                                  ));
+                            }).toList(),
                           ),
                         ),
                   MyText(
@@ -250,29 +249,26 @@ class HomeScreen extends StatelessWidget {
                         )
                       : Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: GridView.builder(
-                            itemCount: controller.products.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                              childAspectRatio: 0.75,
-                            ),
-                            itemBuilder: (context, index) {
-                              return ProductWidget(
-                                action: () => Get.to(
-                                  () => ProductDetailsScreen(
-                                    productModel: controller.products[index],
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            spacing: 8, // horizontal spacing between items
+                            runSpacing: 8, // vertical spacing between lines
+                            children: controller.products.map((product) {
+                              return SizedBox(
+                                width: (MediaQuery.of(context).size.width / 2) -
+                                    16, // 2 items per row minus padding
+                                child: ProductWidget(
+                                  productModel: product,
+                                  action: () => Get.to(
+                                    () => ProductDetailsScreen(
+                                        productModel: product),
                                   ),
                                 ),
-                                productModel: controller.products[index],
                               );
-                            },
+                            }).toList(),
                           ),
-                        )
+                        ),
                 ],
               ),
             )

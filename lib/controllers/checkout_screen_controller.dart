@@ -24,6 +24,7 @@ import 'package:app/theme.dart';
 import 'package:app/utils/convert_to_url.dart';
 import 'package:app/utils/languages_enum.dart';
 import 'package:app/utils/local_storage_keys.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -48,7 +49,6 @@ class CheckOutScreenController extends BaseController {
   }
 
   addAndRemoveToDeletedCArtItems({required CartItemModel cartItemModel}) {
-    // print(itemsToDelete.value);
     if (itemsToDelete.value.contains(cartItemModel)) {
       itemsToDelete.value.remove(cartItemModel);
     } else {
@@ -163,7 +163,7 @@ class CheckOutScreenController extends BaseController {
                       child: Image(
                         width: 70,
                         fit: BoxFit.fill,
-                        image: NetworkImage(
+                        image: CachedNetworkImageProvider(
                           "${NetworkURLs.getMediaServer()}${variationModel.product!.media!.first.URL.toString().convertToUrl()}",
                         ),
                       ),
@@ -221,7 +221,7 @@ class CheckOutScreenController extends BaseController {
                                             MyTheme.buttonsRadius),
                                         image: DecorationImage(
                                           fit: BoxFit.fill,
-                                          image: NetworkImage(
+                                          image: CachedNetworkImageProvider(
                                             "${NetworkURLs.getMediaServer()}${LocalizationService.getCurrentLocale().countryCode == "ar" ? e.ValueAr : e.ValueEn}",
                                           ),
                                         ),

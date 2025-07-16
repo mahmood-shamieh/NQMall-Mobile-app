@@ -24,9 +24,19 @@ class ProfileScreen extends StatelessWidget {
     return GetBuilder(
         init: Get.put(ProfileScreenController()),
         builder: (controller) => Center(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: SafeArea(
+              child: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: MyTheme.buttonColor,
+                  centerTitle: true,
+                  title: MyText(
+                    text: "profileScreen.title".tr,
+                    fontWeight: FontWeight.bold,
+                    size: MyTheme.textSizeXLarge,
+                    color: MyTheme.offWhiteColor,
+                  ),
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: SingleChildScrollView(
                     child: Container(
                       margin: const EdgeInsets.only(top: 12),

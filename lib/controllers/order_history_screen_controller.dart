@@ -34,7 +34,6 @@ class OrderHistoryScreenController extends BaseController {
       Future.delayed(
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
-      print(e);
       if (e is ViewException) return;
       rethrow;
     } finally {

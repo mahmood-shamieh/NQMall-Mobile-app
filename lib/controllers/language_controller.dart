@@ -14,6 +14,5 @@ class LanguageController extends GetxController {
       LocalizationService.changeLocale('ar');
       currentLocale.value = const Locale('ar', 'EG');
     }
-    print(currentLocale.value.countryCode);
   }
 }

@@ -36,11 +36,11 @@ class SearchScreen extends StatelessWidget {
             children: [
               Container(
                 color: MyTheme.buttonColor,
-                height: 140,
+                height: 100,
                 width: double.infinity,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 40),
+                padding: const EdgeInsets.only(top: 5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,6 +152,7 @@ class SearchScreen extends StatelessWidget {
                                 onSuffixTap: () {
                                   controller.loadSearchResult();
                                   controller.products.clear();
+                                  controller.page = 1;
                                   controller.update();
                                 },
                               ),
@@ -165,35 +166,73 @@ class SearchScreen extends StatelessWidget {
               ),
               Container(
                 width: double.infinity,
-                margin: const EdgeInsets.only(top: 180),
-                child: GridView.builder(
-                  itemCount: controller.products.length,
-                  controller: controller.scrollController,
-                  // physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.74,
-                  ),
-                  itemBuilder: (context, index) {
-                    return ProductWidget(
-                      action: () => Get.to(
-                        () => ProductDetailsScreen(
-                          productModel: controller.products[index],
+                margin: const EdgeInsets.only(top: 120),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: controller.products.isEmpty &&
+                          !controller.loading.value
+                      ? Center(
+                          child: MyText(
+                            text: 'empty'.tr,
+                            color: MyTheme.textColor,
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          controller: controller.scrollController,
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            spacing: 8, // horizontal spacing between items
+                            runSpacing: 8, // vertical spacing between lines
+                            children: controller.products.map((product) {
+                              return SizedBox(
+                                width: (MediaQuery.of(context).size.width / 2) -
+                                    16, // 2 items per row minus padding
+                                child: ProductWidget(
+                                  productModel: product,
+                                  action: () => Get.to(() =>
+                                      ProductDetailsScreen(
+                                          productModel: product)),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
-                      ),
-                      productModel: controller.products[index],
-                    );
-                  },
                 ),
               ),
+              // Container(
+              //   width: double.infinity,
+              //   margin: const EdgeInsets.only(top: 180),
+              //   child: GridView.builder(
+              //     itemCount: controller.products.length,
+              //     controller: controller.scrollController,
+              //     // physics: NeverScrollableScrollPhysics(),
+              //     shrinkWrap: true,
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       crossAxisSpacing: 8,
+              //       mainAxisSpacing: 8,
+              //       childAspectRatio: 0.74,
+              //     ),
+              //     itemBuilder: (context, index) {
+              //       return ProductWidget(
+              //         action: () => Get.to(
+              //           () => ProductDetailsScreen(
+              //             productModel: controller.products[index],
+              //           ),
+              //         ),
+              //         productModel: controller.products[index],
+              //       );
+              //     },
+              //   ),
+              // ),
               Visibility(
                 visible: controller.showFilterDialog.value,
                 child: Center(
                   child: Container(
-                    height: MediaQuery.of(context).size.height - 150,
+                    height: MediaQuery.of(context).size.height -
+                        150 -
+                        kToolbarHeight,
                     width: MediaQuery.of(context).size.width - 40,
                     decoration: BoxDecoration(
                       color: MyTheme.offWhiteColor,
@@ -211,58 +250,140 @@ class SearchScreen extends StatelessWidget {
                     ),
                     child: Stack(
                       children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(MyTheme.buttonsRadius),
-                            topRight: Radius.circular(MyTheme.buttonsRadius),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () => controller.toggleFilterView(
-                                      categories: true, brands: false),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 4),
-                                    decoration: BoxDecoration(
-                                        color: controller.filterCategories.value
-                                            ? MyTheme.buttonColor
-                                            : MyTheme.secondaryColor),
-                                    child: MyText(
-                                      text: 'searchScreen.categories'.tr,
-                                      color: MyTheme.offWhiteColor,
-                                      textAlign: TextAlign.center,
-                                      fontWeight:
-                                          controller.filterCategories.value
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
+                        SizedBox(
+                          height: 50,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(MyTheme.buttonsRadius),
+                              topRight: Radius.circular(MyTheme.buttonsRadius),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () => controller.toggleFilterView(
+                                        categories: true, brands: false),
+                                    child: Container(
+                                      height: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      decoration: BoxDecoration(
+                                          color:
+                                              controller.filterCategories.value
+                                                  ? MyTheme.buttonColor
+                                                  : MyTheme.secondaryColor),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          MyText(
+                                            text: 'searchScreen.categories'.tr,
+                                            color: MyTheme.offWhiteColor,
+                                            textAlign: TextAlign.center,
+                                            fontWeight: controller
+                                                    .filterCategories.value
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                          ),
+                                          Visibility(
+                                            visible: controller
+                                                .selectedCategories
+                                                .value
+                                                .isNotEmpty,
+                                            child: Transform.scale(
+                                              scale: 0.7,
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    MyTheme.warnColor,
+                                                child: Container(
+                                                  child: Center(
+                                                    child: MyText(
+                                                      text: controller
+                                                          .selectedCategories
+                                                          .value
+                                                          .length
+                                                          .toString(),
+                                                      color:
+                                                          MyTheme.offWhiteColor,
+                                                      size: MyTheme
+                                                          .textSizeXSmall,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () => controller.toggleFilterView(
-                                      categories: false, brands: true),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 4),
-                                    color: controller.filterBrands.value
-                                        ? MyTheme.buttonColor
-                                        : MyTheme.secondaryColor,
-                                    child: MyText(
-                                        text: 'searchScreen.brands'.tr,
-                                        color: MyTheme.offWhiteColor,
-                                        textAlign: TextAlign.center,
-                                        fontWeight:
-                                            controller.filterBrands.value
-                                                ? FontWeight.bold
-                                                : FontWeight.normal),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () => controller.toggleFilterView(
+                                        categories: false, brands: true),
+                                    child: Container(
+                                      height: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      color: controller.filterBrands.value
+                                          ? MyTheme.buttonColor
+                                          : MyTheme.secondaryColor,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          MyText(
+                                              text: 'searchScreen.brands'.tr,
+                                              color: MyTheme.offWhiteColor,
+                                              textAlign: TextAlign.center,
+                                              fontWeight:
+                                                  controller.filterBrands.value
+                                                      ? FontWeight.bold
+                                                      : FontWeight.normal),
+                                          Visibility(
+                                            visible: controller.selectedBrands
+                                                .value.isNotEmpty,
+                                            child: Transform.scale(
+                                              scale: 0.7,
+                                              child: CircleAvatar(
+                                                backgroundColor:
+                                                    MyTheme.warnColor,
+                                                child: Container(
+                                                  margin:
+                                                      const EdgeInsets.all(4),
+                                                  child: Center(
+                                                    child: MyText(
+                                                      text: controller
+                                                          .selectedBrands
+                                                          .value
+                                                          .length
+                                                          .toString(),
+                                                      color:
+                                                          MyTheme.offWhiteColor,
+                                                      size: MyTheme
+                                                          .textSizeXSmall,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -280,7 +401,7 @@ class SearchScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 50, bottom: 50),
                           child: SingleChildScrollView(
-                            controller: controller.scrollController,
+                            // controller: controller.scrollController,
                             child: Column(
                               children: controller.filterBrands.value
                                   ? controller.brands

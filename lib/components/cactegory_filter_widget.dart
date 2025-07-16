@@ -3,6 +3,7 @@ import 'package:app/localization_service.dart';
 import 'package:app/models/category_model.dart';
 import 'package:app/network/network_urls.dart';
 import 'package:app/theme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -37,7 +38,7 @@ class CategoryFilterWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 image: DecorationImage(
-                  image: NetworkImage(
+                  image: CachedNetworkImageProvider(
                     "${NetworkURLs.getMediaServer()}${categoryModel.ImageURL}",
                   ),
                 ),

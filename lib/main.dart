@@ -34,11 +34,6 @@ void main() async {
   getIt.registerSingleton<PersistentTabController>(PersistentTabController(
     initialIndex: 0,
   ));
-  // print(GetStorage().read(LocalStorageKeys.userModelKey.getKey()));
-  // GetStorage().write(
-  //     LocalStorageKeys.userModelKey.getKey(),
-  //     UserModel(Email: "mahmood@mahmood.mahmood", PasswordHash: "11111111")
-  //         .toJson());
   // GetStorage().erase();
   LocalizationService localizationService = LocalizationService();
   LocalizationService.changeLocale(
@@ -56,6 +51,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       textDirection: LocalizationService.getCurrentLocale().languageCode ==
               Languages.arabic.code
           ? TextDirection.rtl

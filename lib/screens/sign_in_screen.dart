@@ -79,6 +79,7 @@ class SigninScreen extends StatelessWidget {
                             hintText: 'signinScreen.password'.tr,
                             controller: controller.password,
                             errorText: controller.passwordError.value,
+                            obscureText: true,
                           ),
                           MyText(
                             text: 'signinScreen.forgetPassword'.tr,

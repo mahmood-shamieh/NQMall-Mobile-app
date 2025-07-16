@@ -120,6 +120,7 @@ class SignUpScreen extends StatelessWidget {
                               hintText: 'signupScreen.password'.tr,
                               controller: controller.password,
                               errorText: controller.passwordError.value,
+                              obscureText: true,
                             ),
                             MyText(
                               text: 'signupScreen.confirmPassword'.tr,
@@ -134,6 +135,7 @@ class SignUpScreen extends StatelessWidget {
                               hintText: 'signupScreen.confirmPassword'.tr,
                               controller: controller.confirmPassword,
                               errorText: controller.confirmPasswordError.value,
+                              obscureText: true,
                             ),
                             const SizedBox(
                               height: 40,

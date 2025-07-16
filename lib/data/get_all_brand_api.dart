@@ -29,7 +29,6 @@ class GetAllBrandApi {
               (p0) => (p0 as List).map((e) => BrandModel.fromMap(e)).toList());
       return baseResponse;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

@@ -44,7 +44,6 @@ class CreateOrderApi {
           response, (p0) => OrderModel.fromMap(p0));
       return baseResponse;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

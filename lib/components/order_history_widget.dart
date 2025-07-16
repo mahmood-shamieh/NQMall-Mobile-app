@@ -5,6 +5,7 @@ import 'package:app/network/network_urls.dart';
 import 'package:app/theme.dart';
 import 'package:app/utils/convert_to_url.dart';
 import 'package:app/utils/date_time_fomratter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -89,7 +90,7 @@ class OrderHistoryWidget extends StatelessWidget {
                         ),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
+                          image: CachedNetworkImageProvider(
                               '${NetworkURLs.getMediaServer()}${e.product?.media?.first.URL.toString().convertToUrl()}'),
                         )),
                   ),
@@ -108,7 +109,7 @@ class OrderHistoryWidget extends StatelessWidget {
                                       ),
                                       image: DecorationImage(
                                         fit: BoxFit.fill,
-                                        image: NetworkImage(
+                                        image: CachedNetworkImageProvider(
                                             '${NetworkURLs.getMediaServer()}${LocalizationService.getCurrentLocale().languageCode == 'ar' ? value.ValueAr.toString().convertToUrl() : value.ValueEn.toString().convertToUrl()}'),
                                       )),
                                 )

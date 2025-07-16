@@ -19,20 +19,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD5ioDMmAL97aHVBqBOHmrQ3U2virA3lss',
-    appId: '1:716979128456:web:f14329008be819ba8eb73d',
-    messagingSenderId: '716979128456',
-    projectId: 'fcm-test-71bc6',
-    authDomain: 'fcm-test-71bc6.firebaseapp.com',
-    storageBucket: 'fcm-test-71bc6.firebasestorage.app',
-    measurementId: 'G-8BCNWH0W04',
+    apiKey: 'AIzaSyB9BM0P3cFpz0wFlDuaBtuogc1lM_lCDEE',
+    appId: '1:791653513438:android:4bdd3063b5c2d961e16a4f',
+    messagingSenderId: '791653513438',
+    projectId: 'days-mart-9eced',
+    authDomain: 'days-mart-9eced.firebaseapp.com',
+    storageBucket: 'days-mart-9eced.firebasestorage.app',
+    measurementId: 'G-XRG3PHJBZX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDncwQ0CCo8rIJVb0bjdWw7XUIyYM4H5W8',
-    appId: '1:716979128456:android:13240907bc4998278eb73d',
-    messagingSenderId: '716979128456',
-    projectId: 'fcm-test-71bc6',
-    storageBucket: 'fcm-test-71bc6.firebasestorage.app',
+    apiKey: 'AIzaSyB9BM0P3cFpz0wFlDuaBtuogc1lM_lCDEE',
+    appId: '1:791653513438:android:4bdd3063b5c2d961e16a4f',
+    messagingSenderId: '791653513438',
+    projectId: 'days-mart-9eced',
+    storageBucket: 'days-mart-9eced.firebasestorage.app',
   );
 }

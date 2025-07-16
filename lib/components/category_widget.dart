@@ -6,6 +6,7 @@ import 'package:app/models/category_model.dart';
 import 'package:app/network/network_urls.dart';
 import 'package:app/theme.dart';
 import 'package:app/utils/convert_to_url.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,8 @@ class CategoryWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(MyTheme.buttonsRadius),
                   color: MyTheme.borderColor,
                   image: DecorationImage(
-                      image: NetworkImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(
                           "${NetworkURLs.getMediaServer()}${categoryModel.ImageURL!.convertToUrl()}"))),
             ),
           ),
@@ -37,6 +39,7 @@ class CategoryWidget extends StatelessWidget {
             text: LocalizationService.getCurrentLocale().languageCode == "ar"
                 ? categoryModel.NameAr.toString()
                 : categoryModel.NameEn.toString(),
+            textAlign: TextAlign.center,
             color: MyTheme.textColor,
           ),
         ],

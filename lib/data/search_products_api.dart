@@ -12,6 +12,7 @@ import 'package:app/models/user_model.dart';
 import 'package:app/models/variation_model.dart';
 import 'package:app/network/api_hundler.dart';
 import 'package:app/network/network_urls.dart';
+import 'package:get/get_utils/get_utils.dart';
 
 class SearchProductsApi {
   static Future<BaseResponse<List<ProductModel>>> callApi(
@@ -52,7 +53,7 @@ class SearchProductsApi {
 
       return baseResponse;
     } catch (e) {
-      print(e);
+      e.printError();
       rethrow;
     }
   }

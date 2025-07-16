@@ -4,6 +4,7 @@ import 'package:app/models/attribute_model.dart';
 import 'package:app/models/value_model.dart';
 import 'package:app/network/network_urls.dart';
 import 'package:app/theme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageAttributeScrollWidget extends StatelessWidget {
@@ -55,7 +56,7 @@ class ImageAttributeScrollWidget extends StatelessWidget {
                                       : MyTheme.whiteColor,
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(
+                                    image: CachedNetworkImageProvider(
                                       "${NetworkURLs.getMediaServer()}${LocalizationService.getCurrentLocale().languageCode == "ar" ? v.ValueAr.toString() : v.ValueEn.toString()}",
                                     ),
                                   ),

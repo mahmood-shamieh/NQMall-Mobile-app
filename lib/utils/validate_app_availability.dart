@@ -11,10 +11,8 @@ class ValidateAppAvailability {
   static Future<Map<String, bool>> isAppAvailable(
       {required AppConfigModel appConfigModel}) async {
     try {
-      // print(appConfigModel);
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String version = packageInfo.version; // e.g. "1.0.0"
-      // print("++++++++++++++++++++++++>" + version);
       bool workingOrNot = false;
       if (kIsWeb) {
         workingOrNot = appConfigModel.App_Android_Version.toString().trim() ==
@@ -26,17 +24,12 @@ class ValidateAppAvailability {
         workingOrNot = appConfigModel.App_Android_Version.toString().trim() ==
             version.trim();
       }
-      // print(workingOrNot);
-      // print(appConfigModel.DashboardEnabled);
-      // if (!(appConfigModel.DashboardEnabled ?? false) || !workingOrNot) {
-      //   print(";lkasd ;lkasd  ;laksd l;akds");
-      // }
+
       return {
         "AppEnabled": appConfigModel.AppEnabled ?? false,
         "WorkingOrNot": workingOrNot
       };
     } catch (e) {
-      print('Error checking app availability: $e');
       return {};
     }
   }

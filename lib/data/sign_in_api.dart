@@ -30,12 +30,12 @@ class SigninApi {
     try {
       Map<String, dynamic> response =
           await apiHandler.post("/users/login", body: request);
-      // print(response);
+
       BaseResponse<UserModel> baseResponse = BaseResponse<UserModel>.fromMap(
           response, (p0) => UserModel.fromMap(p0));
       return baseResponse;
     } catch (e) {
-      print(e);
+      e.printError();
       rethrow;
     }
   }

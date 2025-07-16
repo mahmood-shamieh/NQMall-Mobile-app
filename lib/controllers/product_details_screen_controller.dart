@@ -1,4 +1,6 @@
+import 'package:app/components/my_snack_bar.dart';
 import 'package:app/components/style_widget.dart';
+import 'package:app/controllers/cart_screen_controller.dart';
 import 'package:app/data/add_to_cart_api.dart';
 import 'package:app/data/get_product_details_api.dart';
 import 'package:app/data/remove_from_cart_api.dart';
@@ -23,6 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 import '../components/dialog_box.dart';
 
@@ -80,8 +83,7 @@ class ProductDetailsScreenController extends GetxController {
     try {
       loading(true);
       myBaseResponse.BaseResponse<ProductModel> baseResponse =
-          await Future.delayed(Duration(seconds: 1),
-              () => GetProductDetailsApi.callApi(productModel: productModel));
+          await GetProductDetailsApi.callApi(productModel: productModel);
       this.productModel = baseResponse.data!;
       this.productModel.variations = (this.productModel.variations ?? [])
           .map((e) => e.copyWith(productId: this.productModel.Id))
@@ -90,8 +92,7 @@ class ProductDetailsScreenController extends GetxController {
       Future.delayed(
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
-      print(e);
-      throw e;
+      rethrow;
     } finally {
       loading(false);
       update();
@@ -103,21 +104,42 @@ class ProductDetailsScreenController extends GetxController {
       loading(true);
       update();
       myBaseResponse.BaseResponse<CartModel> baseResponse =
-          await Future.delayed(
-              Duration(seconds: 1),
-              () => AddToCartApi.callApi(
-                  variationModel: matchedVariation.value!));
+          await AddToCartApi.callApi(variationModel: matchedVariation.value!);
       CartModel cartModel = baseResponse.data!;
       if (getIt.isRegistered<CartModel>()) {
         getIt.unregister<CartModel>();
       }
       getIt.registerSingleton(cartModel);
+      Get.dialog(
+        Align(
+          alignment: Alignment.topCenter,
+          child: MySnackBar(
+            title: "ProductDetailsScreen.successTitle".tr,
+            message: "ProductDetailsScreen.addedToCart".tr,
+            actionLabel: "ProductDetailsScreen.goToCart".tr,
+            onAction: () {
+              try {
+                Get.back();
+                Get.back();
+
+                PersistentTabController persistentTabController =
+                    getIt.get<PersistentTabController>();
+                persistentTabController.jumpToTab(1);
+                var cartScreenController = Get.find<CartScreenController>();
+                cartScreenController.onInit();
+              } catch (e) {}
+            },
+            closeAction: () => Get.back(),
+            closeLabel: "ProductDetailsScreen.close".tr,
+          ),
+        ),
+        barrierColor: Colors.transparent,
+      );
     } on UnAuthorizedException catch (e) {
       Future.delayed(
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
-      print(e);
-      throw e;
+      rethrow;
     } finally {
       loading(false);
       update();
@@ -129,12 +151,9 @@ class ProductDetailsScreenController extends GetxController {
       loading(true);
       update();
       myBaseResponse.BaseResponse<CartModel> baseResponse =
-          await Future.delayed(
-        Duration(seconds: 1),
-        () => RemoveFromCartByVariationIdApi.callApi(
-          variations: [matchedVariation.value!],
-          userModel: getIt.get<UserModel>(),
-        ),
+          await RemoveFromCartByVariationIdApi.callApi(
+        variations: [matchedVariation.value!],
+        userModel: getIt.get<UserModel>(),
       );
       CartModel cartModel = baseResponse.data!;
       if (getIt.isRegistered<CartModel>()) {
@@ -145,8 +164,7 @@ class ProductDetailsScreenController extends GetxController {
       Future.delayed(
           Durations.extralong1, () => Get.offAll(() => SigninScreen()));
     } catch (e) {
-      print(e);
-      throw e;
+      rethrow;
     } finally {
       loading(false);
       update();
