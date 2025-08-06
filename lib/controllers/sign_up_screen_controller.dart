@@ -22,14 +22,12 @@ import 'package:get_storage/get_storage.dart';
 
 class SignUpScreenController extends GetxController {
   RxBool loading = false.obs;
-  TextEditingController email = TextEditingController(text: 'test@test.test');
-  TextEditingController fullName = TextEditingController(text: 'Test');
-  TextEditingController phone = TextEditingController(text: '0966503636');
-  TextEditingController address =
-      TextEditingController(text: 'Damascu Kafer Batna');
-  TextEditingController password = TextEditingController(text: '11111111');
-  TextEditingController confirmPassword =
-      TextEditingController(text: '11111111');
+  TextEditingController email = TextEditingController();
+  TextEditingController fullName = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController address = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
 
   Rx<String?> emailError = null.obs;
   Rx<String?> fullnameError = null.obs;
@@ -37,6 +35,14 @@ class SignUpScreenController extends GetxController {
   Rx<String?> addressError = null.obs;
   Rx<String?> passwordError = null.obs;
   Rx<String?> confirmPasswordError = null.obs;
+  void fillData() {
+    email.text = 'test@test.test';
+    fullName.text = 'Test';
+    phone.text = '0966503636';
+    address.text = 'Damascu Kafer Batna';
+    password.text = '11111111';
+    confirmPassword.text = '11111111';
+  }
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {

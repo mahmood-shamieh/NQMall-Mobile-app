@@ -34,9 +34,12 @@ class SignInScreenController extends BaseController {
   String currentLang = LocalizationService.getCurrentLocale().languageCode;
   Rx<String?> usernameError = null.obs;
   Rx<String?> passwordError = null.obs;
-  TextEditingController username =
-      TextEditingController(text: "john.doe@example.com");
-  TextEditingController password = TextEditingController(text: "securePass123");
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  void fillData() {
+    username.text = 'john.doe@example.com';
+    password.text = 'securePass123';
+  }
 
   @override
   void onInit() {
